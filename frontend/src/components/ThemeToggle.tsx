@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { DEFAULT_THEME, THEME_KEY, THEMES, type Theme } from "@/lib/site";
+import { DEFAULT_THEME, THEME_KEY, THEMES, VISIBLE_THEMES, type Theme } from "@/lib/site";
 
 const Sun = () => (
   <svg className="theme__sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -14,7 +14,7 @@ const Moon = () => (
   </svg>
 );
 
-// Nav button that lets visitors pick Night (dark) or a light background: Lavender, Beige, Bright.
+// Nav button that lets visitors switch between Cream (light, the default) and Night (dark).
 // The choice is remembered in this browser only (localStorage).
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
@@ -23,7 +23,7 @@ export function ThemeToggle() {
 
   useEffect(() => {
     const t = document.documentElement.dataset.theme as Theme | undefined; // set before paint by the script in layout.tsx
-    if (t && THEMES.some((x) => x.id === t)) setTheme(t);
+    if (t && VISIBLE_THEMES.some((x) => x.id === t)) setTheme(t);
   }, []);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export function ThemeToggle() {
       {open && (
         <div className="theme__menu" role="radiogroup" aria-label="Background">
           <div className="theme__title">Background</div>
-          {THEMES.map((t) => (
+          {VISIBLE_THEMES.map((t) => (
             <button key={t.id} role="radio" aria-checked={t.id === theme} className="theme__opt" onClick={() => choose(t.id)}>
               <span className="theme__swatch" style={{ background: t.swatch }} />
               <span className="theme__name">{t.label}</span>

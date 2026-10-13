@@ -76,7 +76,7 @@ test("contact, social, budgets and services include the details", () => {
 test("contact answer offers WhatsApp, email, call, instagram buttons with real links", () => {
   const hrefs = ask("how do i contact you").message.buttons.map((b) => b.href);
   assert.ok(hrefs.some((h) => h.startsWith("https://wa.me/916291845804?text=")));
-  assert.ok(hrefs.includes("mailto:hello@sparrowgen.in"));
+  assert.ok(hrefs.includes("mailto:business@sparrowgen.com"));
   assert.ok(hrefs.includes("tel:+916291845804"));
   assert.ok(hrefs.includes("https://instagram.com/sparrowgen.in"));
 });
@@ -97,7 +97,7 @@ test("common questions land on the right topic", () => {
     "are you a bot": /SparrowBot/,
     "can i see a sample": /free preview/i,
     "where is your office": /Kolkata/,
-    "will you maintain it after launch": /after launch/i,
+    "will you maintain it after launch": /within 24 hours/i,
     "i dont like the design": /approve the design/i,
     "can you make an online shop for my clothes": /mobile-first/i,
     "what budget do you work with": /Under ₹5k/,
