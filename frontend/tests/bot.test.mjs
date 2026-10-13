@@ -76,7 +76,7 @@ test("contact, social, budgets and services include the details", () => {
 test("contact answer offers WhatsApp, email, call, instagram buttons with real links", () => {
   const hrefs = ask("how do i contact you").message.buttons.map((b) => b.href);
   assert.ok(hrefs.some((h) => h.startsWith("https://wa.me/916291845804?text=")));
-  assert.ok(hrefs.includes("mailto:hello@sparrowgen.in"));
+  assert.ok(hrefs.includes("mailto:business@sparrowgen.com"));
   assert.ok(hrefs.includes("tel:+916291845804"));
   assert.ok(hrefs.includes("https://instagram.com/sparrowgen.in"));
 });

@@ -41,7 +41,7 @@
   color-scheme: light;
 }
 
-/* Background themes, picked by visitors from the nav's theme button. Night is the default (DEFAULT_THEME in site.ts).
+/* Background themes, picked by visitors from the nav's theme button. Cream is the default (DEFAULT_THEME in site.ts); Lavender is hidden (see THEMES).
    :root above is the base light palette; each light theme only overrides what differs. */
 :root[data-theme="cream"] { /* background colours from the aijugaad.co reference */
   --bg: #faf3e5;
@@ -170,17 +170,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .hero__sub { font-size: var(--step-1); line-height: 1.45; color: var(--muted); max-width: 30ch; margin: 24px 0 30px; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 12px; }
 .hero__hint { margin: 26px 0 0; font-size: var(--step--1); color: var(--muted); display: flex; align-items: center; gap: 6px; }
-
-/* story-bubble stickers */
-.sticker {
-  position: absolute; z-index: 6; display: inline-flex; align-items: center; gap: 8px;
-  padding: 3px; border-radius: 999px; background: linear-gradient(120deg, #fa7e1e 0%, #d62976 38%, #962fbf 72%, #4f5bd5 100%);
-  box-shadow: 0 10px 24px -10px rgba(150, 47, 191, 0.55);
-  cursor: grab; touch-action: none; user-select: none; transition: box-shadow 0.15s;
-}
-.sticker span { display: block; padding: 7px 14px; border-radius: 999px; background: var(--surface); font-weight: 700; font-size: 0.82rem; white-space: nowrap; }
-.sticker:active { cursor: grabbing; box-shadow: 0 18px 32px -10px rgba(150, 47, 191, 0.7); }
-@media (max-width: 960px) { .sticker { display: none; } }
 
 /* ---------- mini site preview (used by the hero editor) ---------- */
 
