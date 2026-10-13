@@ -124,7 +124,7 @@ export const steps = [
 export const faqs = [
   { q: "How long does a website take?", a: "Most sites go live in 1 week. Landing pages can be done in 2 days." },
   { q: "Do I need to write the content?", a: "No. Send us what you have — even voice notes or your Instagram captions — and we'll shape it into copy that sells." },
-  { q: "Can I edit the site myself later?", a: "Just contact us and we'll make the changes for you. We reply within 1-2 business days." },
+  { q: "Can I edit the site myself later?", a: "Just contact us and we'll make the changes for you. Someone will reach out to you within 24 hours." },
   { q: "What about domain and hosting?", a: "We set both up for you, so you never have to touch a server." },
   { q: "What if I don't like the design?", a: "You approve the design before we build, and revisions are part of the process." },
 ];

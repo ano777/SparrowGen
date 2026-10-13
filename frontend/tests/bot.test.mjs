@@ -97,7 +97,7 @@ test("common questions land on the right topic", () => {
     "are you a bot": /SparrowBot/,
     "can i see a sample": /free preview/i,
     "where is your office": /Kolkata/,
-    "will you maintain it after launch": /1-2 business days/i,
+    "will you maintain it after launch": /within 24 hours/i,
     "i dont like the design": /approve the design/i,
     "can you make an online shop for my clothes": /mobile-first/i,
     "what budget do you work with": /Under ₹5k/,
