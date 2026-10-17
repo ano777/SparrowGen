@@ -16,7 +16,7 @@
     "email": "hello@sparrowgen.in",
     "instagram": "@sparrowgen.in",
     "instagram_url": "https://instagram.com/sparrowgen.in",
-    "city": "Kolkata, India",
+    "city": "Pan India",
     "hours": "Mon to Sat, 10am to 7pm IST"
   },
   "pricing_note": "Not happy with the pricing? Contact us on WhatsApp ({whatsapp}) and we'll find something that fits your budget.",
@@ -550,7 +550,7 @@
         "india",
         "address"
       ],
-      "answer": "We're based in {city}, and we work with clients anywhere online. We're available {hours}.",
+      "answer": "We work with clients all over India, fully online, so your city doesn't matter. We're available {hours}.",
       "buttons": [
         "topic:contact",
         "book"

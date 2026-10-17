@@ -3,15 +3,24 @@
 export const brand = {
   name: "Sparrowgen",
   botName: "SparrowBot", // the chat assistant's name
-  website: "", // the live address once the domain is bought, e.g. "https://yourname.in" (no trailing slash)
+  website: "https://sparrowgen.com", // the live address (no trailing slash); Google, the sitemap and link previews use it
   tagline: "More customers. Not more templates.",
-  tabTitle: "Websites & Automation, Engineered", // shown in the browser tab on the home page
   email: "hello@sparrowgen.in", // create this inbox once sparrowgen.in is bought
   whatsapp: "+91 62918 45804",
   whatsapp2: "+91 80178 12091", // second WhatsApp line, shown alongside the main one
   instagram: "@sparrowgen.in",
   instagramUrl: "https://instagram.com/sparrowgen.in",
-  city: "Kolkata, India",
+  city: "Pan India", // we serve clients across India, fully online
+};
+
+// The site's full address, used by Google (sitemap, robots, link previews).
+// Falls back to the host's URL build variable, then localhost, only if brand.website is empty.
+export const siteUrl = brand.website || process.env.URL || "http://localhost:3000";
+
+// Shown in Google results under the page title. Keep each under ~155 characters.
+export const seo = {
+  homeTitle: `${brand.name} | Website Design & Development Across India`,
+  homeDescription: "Hand-coded websites and online stores for cafés, salons, clinics and shops across India. See your design first, live in a week.",
 };
 
 export const nav = [

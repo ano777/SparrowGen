@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { brand } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 import { FinalCta, ProjectGrid } from "@/components/Sections";
 
-export const metadata: Metadata = { title: `Work — ${brand.name}` };
+export const metadata: Metadata = pageMeta("Our work", "Website concepts by " + brand.name + " for cafés, turfs and local businesses: booking, ordering and online stores built to bring in customers.", "/work");
 
 export default function WorkPage() {
   return (

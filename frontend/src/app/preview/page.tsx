@@ -2,11 +2,9 @@ import type { Metadata } from "next";
 import { PreviewStudio } from "@/components/PreviewStudio";
 import { CATEGORIES, photo } from "@/lib/previews";
 import { brand } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `See your website — ${brand.name}`,
-  description: "Type your business name and see four website designs made for your kind of business. Free and instant.",
-};
+export const metadata: Metadata = pageMeta("See your website free", "Type your business name and see four website designs made for your kind of business. Free and instant.", "/preview");
 
 const byId = (id: string) => CATEGORIES.find((c) => c.id === id)!;
 

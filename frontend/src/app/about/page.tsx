@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { FinalCta } from "@/components/Sections";
 import { brand } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = { title: `About — ${brand.name}` };
+export const metadata: Metadata = pageMeta("About us", "Meet the engineers behind " + brand.name + ", a website design and development studio building hand-coded sites for small businesses across India.", "/about");
 
 const team = [
   {

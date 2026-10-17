@@ -96,7 +96,7 @@ test("common questions land on the right topic", () => {
     "who are you": /SparrowBot/,
     "are you a bot": /SparrowBot/,
     "can i see a sample": /free preview/i,
-    "where is your office": /Kolkata/,
+    "where is your office": /all over India/,
     "will you maintain it after launch": /after launch/i,
     "i dont like the design": /approve the design/i,
     "can you make an online shop for my clothes": /mobile-first/i,
@@ -199,7 +199,7 @@ test("older topics still route correctly after the new FAQs", () => {
     "what services do you offer": /Here's what we provide/,
     "how do i pay": /payment schedule/,
     "show me your work": /Work page/,
-    "where are you based": /Kolkata/,
+    "where are you based": /all over India/,
     "i dont like the design": /approve the design/i,
     "talk to a person": /contact our team/,
   };

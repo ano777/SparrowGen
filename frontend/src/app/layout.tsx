@@ -5,7 +5,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ScrollManager } from "@/components/ScrollManager";
 import { ChatBot } from "@/components/ChatBot";
-import { brand, DEFAULT_THEME, THEME_KEY, THEMES } from "@/lib/site";
+import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, THEMES } from "@/lib/site";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz"], variable: "--font-display", display: "swap" });
 const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -13,8 +13,25 @@ const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body", disp
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: `${brand.name} — ${brand.tabTitle}`,
-  description: "Websites and online stores, hand-coded by real engineers, for businesses that have outgrown \u201cDM to order\u201d.",
+  metadataBase: new URL(siteUrl),
+  title: seo.homeTitle,
+  description: seo.homeDescription,
+  alternates: { canonical: "/" },
+  openGraph: { title: seo.homeTitle, description: seo.homeDescription, url: "/", siteName: brand.name, locale: "en_IN", type: "website" },
+  twitter: { card: "summary_large_image", title: seo.homeTitle, description: seo.homeDescription },
+};
+
+// Business details Google can show in search (structured data, schema.org).
+const businessInfo = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: brand.name,
+  description: seo.homeDescription,
+  url: siteUrl,
+  email: brand.email,
+  telephone: brand.whatsapp.replace(/\s/g, ""),
+  areaServed: { "@type": "Country", name: "India" },
+  sameAs: [brand.instagramUrl],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});if(t==="bright"||t==="beige"||t==="dotted")t="cream";if(${JSON.stringify(THEMES.map((t) => t.id))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`,
           }}
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessInfo) }} />
       </head>
       <body>
         <ScrollManager />

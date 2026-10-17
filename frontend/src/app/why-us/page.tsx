@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Compare, FinalCta, Process } from "@/components/Sections";
 import { brand } from "@/lib/site";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = { title: `Why us — ${brand.name}` };
+export const metadata: Metadata = pageMeta("Why us", "Why businesses choose " + brand.name + ": hand-coded websites, no templates, a design you approve first and a site live in about a week.", "/why-us");
 
 export default function WhyUsPage() {
   return (
