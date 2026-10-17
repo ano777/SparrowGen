@@ -3,11 +3,13 @@ import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 import { brand } from "@/lib/site";
 import { legal, storageItems } from "@/lib/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Cookie Policy — ${brand.name}`,
-  description: `What ${brand.name} stores in your browser, and why there are no tracking cookies on this website.`,
-};
+export const metadata: Metadata = pageMeta(
+  "Cookie Policy",
+  `What ${brand.name} stores in your browser, and why there are no tracking cookies on this website.`,
+  "/cookies",
+);
 
 const mail = <a href={`mailto:${legal.grievanceOfficer.email}`}>{legal.grievanceOfficer.email}</a>;
 
@@ -77,6 +79,10 @@ const sections: LegalSection[] = [
           cookies under its own policy. Our hosting provider may use strictly necessary technical measures to keep the
           website secure.
         </p>
+        <p>
+          The picture and title shown when someone shares a link to our website (on WhatsApp, Instagram and similar apps)
+          are made by our own website. They set no cookies and track no one.
+        </p>
       </>
     ),
   },
@@ -114,6 +120,7 @@ export default function CookiesPage() {
       kicker="Legal"
       title="Cookie Policy"
       current="/cookies"
+      lastUpdated={legal.cookiesUpdated}
       sections={sections}
       intro={<p>This page explains exactly what {brand.name}&apos;s website stores in your browser, and why.</p>}
     />

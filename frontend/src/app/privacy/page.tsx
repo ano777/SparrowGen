@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
-import { brand } from "@/lib/site";
+import { brand, siteUrl } from "@/lib/site";
 import { legal, processors } from "@/lib/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Privacy Policy — ${brand.name}`,
-  description: `How ${brand.name} collects, uses and protects your personal data, under India's Digital Personal Data Protection Act, 2023.`,
-};
+export const metadata: Metadata = pageMeta(
+  "Privacy Policy",
+  `How ${brand.name} collects, uses and protects your personal data, under India's Digital Personal Data Protection Act, 2023.`,
+  "/privacy",
+);
 
 const g = legal.grievanceOfficer;
 const mail = <a href={`mailto:${g.email}`}>{g.email}</a>;
@@ -19,10 +21,10 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          {legal.businessName} is a website design and development studio based in {legal.address}, run by its
-          co-founders.
-          {legal.businessStatus && ` ${legal.businessStatus}`} We design and build business websites, online stores,
-          landing pages, and website chatbots and automation for businesses.
+          {legal.businessName} is a website design and development studio based in India, run by its co-founders.
+          {legal.businessStatus && ` ${legal.businessStatus}`} We work fully online with businesses across India
+          (Pan India), and design and build business websites, online stores, landing pages, and website chatbots and
+          automation. Our website is <a href={siteUrl}>{siteUrl.replace(/^https?:\/\//, "")}</a>.
         </p>
         <p>
           For the personal data described in this policy, we are the <strong>Data Fiduciary</strong> under the Digital
@@ -323,11 +325,19 @@ const sections: LegalSection[] = [
     id: "other-websites",
     title: "Links to other websites",
     body: (
-      <p>
-        Our website links to other services and websites, such as WhatsApp, Instagram and websites we have built for
-        clients. When you open them, their own privacy policies apply, and we are not responsible for how they handle your
-        data.
-      </p>
+      <>
+        <p>
+          Our website links to other services and websites, such as WhatsApp, Instagram and websites we have built for
+          clients. When you open them, their own privacy policies apply, and we are not responsible for how they handle your
+          data.
+        </p>
+        <p>
+          <strong>Search engines and link previews:</strong> we publish our business details (name, email, WhatsApp
+          number and Instagram page) and a sitemap so that search engines such as Google can list our website. When you
+          share a link to our website on WhatsApp, Instagram or another app, that app loads our preview picture and page
+          title from our website. None of this collects or sends us any personal data about you.
+        </p>
+      </>
     ),
   },
   {
@@ -369,6 +379,7 @@ export default function PrivacyPage() {
       kicker="Legal"
       title="Privacy Policy"
       current="/privacy"
+      lastUpdated={legal.privacyUpdated}
       sections={sections}
       intro={
         <p>

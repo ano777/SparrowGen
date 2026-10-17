@@ -14,7 +14,9 @@ export const legal = {
   // phone is Anoranya's number (the second WhatsApp line on the site).
   grievanceOfficer: { name: "Anoranya Dutta", role: "Co-founder and Grievance Officer", email: brand.email, phone: brand.whatsapp2 },
   effectiveDate: "6 October 2026",
-  lastUpdated: "6 October 2026",
+  lastUpdated: "6 October 2026", // Terms
+  privacyUpdated: "18 October 2026",
+  cookiesUpdated: "18 October 2026",
   courtsCity: "Kolkata, West Bengal",
 };
 

@@ -11,12 +11,13 @@ const LEGAL_LINKS = [
 ];
 
 // Shared layout for the Privacy Policy, Terms and Cookie Policy: title, dates, contents, numbered sections.
-export function LegalPage({ kicker, title, intro, sections, current }: {
+export function LegalPage({ kicker, title, intro, sections, current, lastUpdated = legal.lastUpdated }: {
   kicker: string;
   title: string;
   intro: ReactNode;
   sections: LegalSection[];
   current: string;
+  lastUpdated?: string;
 }) {
   const toc = (
     <ol>
@@ -29,7 +30,7 @@ export function LegalPage({ kicker, title, intro, sections, current }: {
       <div className="wrap">
         <p className="kicker">{kicker}</p>
         <h1 className="display legal__title">{title}</h1>
-        <p className="legal__dates">Effective {legal.effectiveDate} · Last updated {legal.lastUpdated}</p>
+        <p className="legal__dates">Effective {legal.effectiveDate} · Last updated {lastUpdated}</p>
         <nav className="legal__tabs" aria-label="Legal pages">
           {LEGAL_LINKS.map((l) => (
             <Link key={l.href} href={l.href} aria-current={l.href === current ? "page" : undefined}>{l.label}</Link>

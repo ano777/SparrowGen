@@ -3,11 +3,13 @@ import Link from "next/link";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 import { brand } from "@/lib/site";
 import { legal } from "@/lib/legal";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Terms & Conditions — ${brand.name}`,
-  description: `The terms for using the ${brand.name} website and working with us on a website project.`,
-};
+export const metadata: Metadata = pageMeta(
+  "Terms & Conditions",
+  `The terms for using the ${brand.name} website and working with us on a website project.`,
+  "/terms",
+);
 
 const mail = <a href={`mailto:${legal.grievanceOfficer.email}`}>{legal.grievanceOfficer.email}</a>;
 
