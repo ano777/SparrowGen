@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Geist_Mono, Instrument_Sans } from "next/font/google";
 import "./globals.css";
+import "./studio.css";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ScrollManager } from "@/components/ScrollManager";
 import { ChatBot } from "@/components/ChatBot";
-import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, THEMES, VISIBLE_THEMES } from "@/lib/site";
+import { PageTransition } from "@/components/PageTransition";
+import { CursorGlow } from "@/components/CursorGlow";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, VISIBLE_THEMES } from "@/lib/site";
 
+// Our own type: heavy Bricolage Grotesque headlines (the highlighted word uses the same font, in the gradient) and Instrument Sans text.
 const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz"], variable: "--font-display", display: "swap" });
 const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
 // Accent only: labels, nav, captions, code. Never headlines or body copy.
@@ -40,17 +45,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});if(t==="bright"||t==="beige"||t==="dotted")t="cream";if(${JSON.stringify(VISIBLE_THEMES.map((t) => t.id))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`,
+            __html: `document.documentElement.dataset.js="1";if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.pt="intro";try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});if(t==="bright"||t==="beige"||t==="dotted")t="cream";if(${JSON.stringify(VISIBLE_THEMES.map((t) => t.id))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`,
           }}
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessInfo) }} />
       </head>
       <body>
         <ScrollManager />
-          <Nav />
-          <main>{children}</main>
-          <Footer />
-          <ChatBot />
+        <CursorGlow />
+        <RevealOnScroll />
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+        <ChatBot />
+        <PageTransition />
       </body>
     </html>
   );

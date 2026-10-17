@@ -154,7 +154,7 @@ export function Faq() {
 export function FinalCta() {
   const wa = `https://wa.me/${brand.whatsapp.replace(/\D/g, "")}`;
   return (
-    <section id="contact" className="section final">
+    <section id="get-started" className="section final">
       <div className="wrap">
         <h2 className="display final__title">Ready when you are.<span className="grad-text">Slide into our DMs.</span></h2>
         <p>Tell us about your business. We&apos;ll come back with a plan, a timeline and a first look.</p>

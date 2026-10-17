@@ -1,18 +1,16 @@
-import { Hero } from "@/components/Hero";
 import { ScratchServices } from "@/components/ScratchServices";
-import { PreviewTeaser } from "@/components/PreviewTeaser";
-import { Faq, FinalCta, Process, Work } from "@/components/Sections";
+import { Approach, Speaks, Steps, StudioFaq, StudioHero, Tools } from "@/components/studio/Home";
 
 export default function Home() {
   return (
     <>
-      <Hero />
+      <StudioHero />
+      <Tools />
+      <Speaks />
       <ScratchServices />
-      <PreviewTeaser />
-      <Work />
-      <Process />
-      <Faq />
-      <FinalCta />
+      <Steps />
+      <Approach />
+      <StudioFaq />
     </>
   );
 }

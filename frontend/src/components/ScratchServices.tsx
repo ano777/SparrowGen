@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { services } from "@/lib/site";
+import { Acc } from "./Roll";
 
 // Reveal after 20% is scratched — enough to feel the scratch, short enough that nobody gives up.
 const REVEAL_AT = 0.2;
@@ -304,11 +305,15 @@ export function ScratchServices() {
   };
 
   return (
-    <section id="services" className="section">
-      <div className="wrap">
-        <p className="kicker">What we build</p>
-        <h2 className="display h2">What&apos;s under<br />the card?</h2>
-        <p className="lede">Three things are hidden under this ticket. One of them is exactly what your business needs.</p>
+    <section id="services" className="s-section s-scratch">
+      <div className="s-wrap">
+        <div className="s-scratch__head">
+          <div>
+            <p className="kicker">What we build</p>
+            <h2 className="s-h s-h--md">What&apos;s under the <Acc>card?</Acc></h2>
+          </div>
+          <p className="s-scratch__lede">Three things are hidden under this ticket. One of them is <mark>exactly what your business needs.</mark></p>
+        </div>
 
         <div className="ticket-stage" data-done={done} onPointerMove={onTilt} onPointerLeave={resetTilt}>
           <div className="ticket" ref={ticketRef} data-scratching={scratching} data-done={done}>

@@ -41,7 +41,7 @@
   color-scheme: light;
 }
 
-/* Background themes, picked by visitors from the nav's theme button. Cream is the default (DEFAULT_THEME in site.ts); Lavender is hidden (see THEMES).
+/* Background themes, picked by visitors from the nav's theme button. Cream is the default (DEFAULT_THEME in site.ts); White and Lavender are hidden (see THEMES).
    :root above is the base light palette; each light theme only overrides what differs. */
 :root[data-theme="cream"] { /* background colours from the aijugaad.co reference */
   --bg: #faf3e5;
@@ -49,6 +49,13 @@
   --ink: #141414;
   --muted: #3d362c; /* warm espresso body text: 10.8:1 on cream (was #5e5648, 6.6:1, read too light) */
   --line: rgba(20, 20, 20, 0.16);
+}
+:root[data-theme="white"] { /* the studio template: white page, black type, grey cards */
+  --bg: #ffffff;
+  --surface: #f6f6f6;
+  --ink: #000000;
+  --muted: #5a5a5a;
+  --line: rgba(0, 0, 0, 0.1);
 }
 :root[data-theme="night"] {
   --bg: #120a1a;

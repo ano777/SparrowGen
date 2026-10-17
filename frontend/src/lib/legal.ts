@@ -23,7 +23,7 @@ export const legal = {
 // Browser storage the website uses (shown in the Cookie Policy). Keep in sync with the code:
 // THEME_KEY in lib/site.ts, PREVIEW_DRAFT_KEY / PREVIEW_CHOICE_KEY in lib/previews.ts.
 export const storageItems = [
-  { name: "site-theme-v1", where: "Local storage", purpose: "Remembers the colour theme you picked (for example light or dark).", lasts: "Until you clear your browser data" },
+  { name: "site-theme-v3", where: "Local storage", purpose: "Remembers the colour theme you picked (for example light or dark).", lasts: "Until you clear your browser data" },
   { name: "preview-draft-v1", where: "Session storage", purpose: "Carries the business name you type on the home page over to the free preview.", lasts: "Until you close the tab (removed as soon as it is used)" },
   { name: "preview-choice-v1", where: "Session storage", purpose: "Carries the design you picked in the free preview over to the booking form.", lasts: "Until you close the tab" },
 ];

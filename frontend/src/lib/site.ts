@@ -24,14 +24,14 @@ export const seo = {
   homeDescription: "Hand-coded websites and online stores for cafés, salons, clinics and shops across India. See your design first, live in a week.",
 };
 
-export const nav = [
+// `star` = our USP, shown as a highlighted pill in the middle of the menu.
+export const nav: { href: string; label: string; star?: boolean }[] = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About Us" },
+  { href: "/work", label: "Works" },
+  { href: "/preview", label: "See your site first", star: true },
   { href: "/#services", label: "Services" },
-  { href: "/preview", label: "See your website first" },
-  { href: "/work", label: "Work" },
   { href: "/why-us", label: "Why us" },
-  { href: "/about", label: "About" },
-  { href: "/#contact", label: "Contact" },
 ];
 
 // Footer also links to these.
@@ -115,13 +115,14 @@ export type Project = {
   image?: string; // real screenshot in /public (e.g. "/work/spotturf-cover.webp"). Replaces the drawn mock
   nav?: [string, string, string]; // words in the mock's nav bar (defaults to Shop / About / Contact)
   concept?: boolean; // a sample site we made ourselves, not client work. Shown with a "Concept" label (required: misleading-ads rules)
+  category: string; // filter chip on /work
 };
 
 // Concept sites until real client work (with testimonials) is ready. Keep this list short.
 // Real client projects must NOT have concept: true; concept ones must keep it.
 export const projects: Project[] = [
-  { slug: "spotturf", concept: true, name: "SpotTurf Kolkata", kind: "Turf booking website", result: "Live slot booking", palette: ["#0f3d27", "#f2efe4", "#f6c21c"], headline: "Play till midnight in Kasba.", url: "https://spot-turfs.netlify.app/", image: "/work/spotturf-cover.webp", nav: ["Book", "Rates", "Photos"] },
-  { slug: "bhor", concept: true, name: "Bhor Coffee & Bakehouse", kind: "Cafe website", result: "Order ahead for pickup", palette: ["#1d3b36", "#f7f0e6", "#e9a23b"], headline: "Coffee from the hills. Baked at dawn, gone by noon.", url: "https://bhor-coffee.netlify.app/", image: "/work/bhor-coffee-cover.jpg", nav: ["Order", "Coffee", "Visit"] },
+  { slug: "spotturf", concept: true, category: "Sports", name: "SpotTurf Kolkata", kind: "Turf booking website", result: "Live slot booking", palette: ["#0f3d27", "#f2efe4", "#f6c21c"], headline: "Play till midnight in Kasba.", url: "https://spot-turfs.netlify.app/", image: "/work/spotturf-cover.webp", nav: ["Book", "Rates", "Photos"] },
+  { slug: "bhor", concept: true, category: "Café", name: "Bhor Coffee & Bakehouse", kind: "Cafe website", result: "Order ahead for pickup", palette: ["#1d3b36", "#f7f0e6", "#e9a23b"], headline: "Coffee from the hills. Baked at dawn, gone by noon.", url: "https://bhor-coffee.netlify.app/", image: "/work/bhor-coffee-cover.jpg", nav: ["Order", "Coffee", "Visit"] },
 ];
 
 export const steps = [
@@ -139,15 +140,16 @@ export const faqs = [
   { q: "What if I don't like the design?", a: "You approve the design before we build, and revisions are part of the process." },
 ];
 
-// Backgrounds (theme button in the nav). Cream (light) is the default; visitors can switch to Night (dark).
-// Lavender is kept in the code and CSS but hidden: set `hidden: false` to bring it back. Colours live in globals.css.
+// Backgrounds (the light/dark switch in the nav). Cream (beige, light) is the default; visitors can switch to Night (dark).
+// White and Lavender are kept in the code and CSS but hidden: set `hidden: false` to bring one back. Colours live in globals.css.
 export const THEMES = [
   { id: "cream", label: "Cream", mode: "Light", swatch: "#faf3e5", hidden: false },
   { id: "night", label: "Night", mode: "Dark", swatch: "#120a1a", hidden: false },
+  { id: "white", label: "White", mode: "Light", swatch: "#ffffff", hidden: true },
   { id: "lavender", label: "Lavender", mode: "Light", swatch: "#f3ecfb", hidden: true },
 ] as const;
 export type Theme = (typeof THEMES)[number]["id"];
 export const VISIBLE_THEMES = THEMES.filter((t) => !t.hidden);
 export const DEFAULT_THEME: Theme = "cream";
-export const THEME_KEY = "site-theme-v1";
+export const THEME_KEY = "site-theme-v3"; // bumped when Cream became the default again, so everyone starts on it
 
