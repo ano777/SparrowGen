@@ -5,7 +5,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ScrollManager } from "@/components/ScrollManager";
 import { ChatBot } from "@/components/ChatBot";
-import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, THEMES } from "@/lib/site";
+import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, THEMES, VISIBLE_THEMES } from "@/lib/site";
 
 const display = Bricolage_Grotesque({ subsets: ["latin"], axes: ["opsz"], variable: "--font-display", display: "swap" });
 const body = Instrument_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});if(t==="bright"||t==="beige"||t==="dotted")t="cream";if(${JSON.stringify(THEMES.map((t) => t.id))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`,
+            __html: `try{var t=localStorage.getItem(${JSON.stringify(THEME_KEY)});if(t==="bright"||t==="beige"||t==="dotted")t="cream";if(${JSON.stringify(VISIBLE_THEMES.map((t) => t.id))}.indexOf(t)>-1)document.documentElement.dataset.theme=t}catch(e){}`,
           }}
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessInfo) }} />

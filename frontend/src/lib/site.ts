@@ -5,7 +5,8 @@ export const brand = {
   botName: "SparrowBot", // the chat assistant's name
   website: "https://sparrowgen.com", // the live address (no trailing slash); Google, the sitemap and link previews use it
   tagline: "More customers. Not more templates.",
-  email: "hello@sparrowgen.in", // create this inbox once sparrowgen.in is bought
+  tabTitle: "Websites & Automation, Engineered", // shown in the browser tab on the home page
+  email: "business@sparrowgen.com",
   whatsapp: "+91 62918 45804",
   whatsapp2: "+91 80178 12091", // second WhatsApp line, shown alongside the main one
   instagram: "@sparrowgen.in",
@@ -44,13 +45,6 @@ export const hero = {
   line2: "Not more templates.",
   sub: "Look as good online as you are in person. Our engineers design and build every site around your business, using AI to move faster, never to cut corners. Live in a week.",
 };
-
-// Draggable story-bubble stickers around the hero builder (percent of the hero box).
-export const stickers = [
-  { label: "Hand-coded", x: 88, y: -5, r: 8 },
-  { label: "Live in 1 week", x: 90, y: 88, r: -5 },
-  { label: "0% templates", x: 30, y: 94, r: -4 },
-] as const;
 
 // "See your website in 5 seconds" — the hero builder. Each type is a mini site template.
 export type SiteKind = {
@@ -140,18 +134,20 @@ export const steps = [
 export const faqs = [
   { q: "How long does a website take?", a: "Most sites go live in 1 week. Landing pages can be done in 2 days." },
   { q: "Do I need to write the content?", a: "No. Send us what you have — even voice notes or your Instagram captions — and we'll shape it into copy that sells." },
-  { q: "Can I edit the site myself later?", a: "Just contact us and we'll make the changes for you. We have 24-hour customer support." },
+  { q: "Can I edit the site myself later?", a: "Just contact us and we'll make the changes for you. Someone will reach out to you within 24 hours." },
   { q: "What about domain and hosting?", a: "We set both up for you, so you never have to touch a server." },
   { q: "What if I don't like the design?", a: "You approve the design before we build, and revisions are part of the process." },
 ];
 
-// Visitor-selectable backgrounds (theme button in the nav). Night is the default; colours live in globals.css.
+// Backgrounds (theme button in the nav). Cream (light) is the default; visitors can switch to Night (dark).
+// Lavender is kept in the code and CSS but hidden: set `hidden: false` to bring it back. Colours live in globals.css.
 export const THEMES = [
-  { id: "night", label: "Night", mode: "Dark", swatch: "#120a1a" },
-  { id: "cream", label: "Cream", mode: "Light", swatch: "#faf3e5" },
-  { id: "lavender", label: "Lavender", mode: "Light", swatch: "#f3ecfb" },
+  { id: "cream", label: "Cream", mode: "Light", swatch: "#faf3e5", hidden: false },
+  { id: "night", label: "Night", mode: "Dark", swatch: "#120a1a", hidden: false },
+  { id: "lavender", label: "Lavender", mode: "Light", swatch: "#f3ecfb", hidden: true },
 ] as const;
 export type Theme = (typeof THEMES)[number]["id"];
-export const DEFAULT_THEME: Theme = "night";
+export const VISIBLE_THEMES = THEMES.filter((t) => !t.hidden);
+export const DEFAULT_THEME: Theme = "cream";
 export const THEME_KEY = "site-theme-v1";
 

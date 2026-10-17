@@ -148,6 +148,9 @@ export function ScratchServices() {
   const last = useRef<{ x: number; y: number } | null>(null);
   const moves = useRef(0);
   const teased = useRef(false);
+  // A finger can mean "scroll the page" or "scratch". For touch we wait until the first few pixels of movement
+  // show which one it is, so a scroll never leaves scratch marks and a scratch never scrolls the page.
+  const touch = useRef<{ x: number; y: number; ox: number; oy: number; mode: "pending" | "scratch" | "scroll" } | null>(null);
   const [pct, setPct] = useState(0);
   const [done, setDone] = useState(false);
   const [scratching, setScratching] = useState(false);
@@ -241,6 +244,47 @@ export function ScratchServices() {
     return () => { io.disconnect(); cancelAnimationFrame(raf); clearTimeout(timer); clearTimeout(coinTimer); };
   }, [done]);
 
+  const beginScratch = (e: React.PointerEvent) => {
+    drawing.current = true;
+    setScratching(true);
+    resetTilt();
+    last.current = null;
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch {} // the pointer may already be gone
+  };
+  const endScratch = () => { drawing.current = false; setScratching(false); last.current = null; };
+
+  const onDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "touch") {
+      // Don't scratch yet: this touch may be the start of a page scroll.
+      touch.current = { x: e.clientX, y: e.clientY, ox: e.nativeEvent.offsetX, oy: e.nativeEvent.offsetY, mode: "pending" };
+      return;
+    }
+    beginScratch(e);
+    scratchAt(e);
+  };
+  const onMove = (e: React.PointerEvent) => {
+    const t = touch.current;
+    if (t) {
+      if (t.mode === "scroll") return;
+      if (t.mode === "pending") {
+        const dx = Math.abs(e.clientX - t.x), dy = Math.abs(e.clientY - t.y);
+        if (Math.max(dx, dy) < 8) return;
+        if (dy > dx) { t.mode = "scroll"; return; } // mostly vertical: let the page scroll
+        t.mode = "scratch";
+        beginScratch(e);
+        strokeTo(t.ox, t.oy, BRUSH(e.currentTarget.clientWidth)); // the spot where the finger first touched
+      }
+    }
+    if (drawing.current) scratchAt(e);
+  };
+  const onUp = () => {
+    const wasScratching = drawing.current;
+    touch.current = null;
+    endScratch();
+    if (wasScratching) measure();
+  };
+  const onCancel = () => { touch.current = null; endScratch(); }; // the browser took the gesture (scroll)
+
   // 3D tilt + glare that follows the cursor (mouse only; flattens while scratching).
   const onTilt = (e: React.PointerEvent) => {
     const el = ticketRef.current;
@@ -284,10 +328,10 @@ export function ScratchServices() {
                 data-done={done}
                 aria-label="Scratch card covering our services. Use the Show me button below to reveal."
                 role="img"
-                onPointerDown={(e) => { drawing.current = true; setScratching(true); resetTilt(); last.current = null; (e.target as HTMLElement).setPointerCapture(e.pointerId); scratchAt(e); }}
-                onPointerMove={(e) => { if (drawing.current) scratchAt(e); }}
-                onPointerUp={() => { drawing.current = false; setScratching(false); last.current = null; measure(); }}
-                onPointerCancel={() => { drawing.current = false; setScratching(false); last.current = null; }}
+                onPointerDown={onDown}
+                onPointerMove={onMove}
+                onPointerUp={onUp}
+                onPointerCancel={onCancel}
               />
               <div className="scratch__glare" aria-hidden="true" />
               <div className="scratch__coin" ref={coinRef} aria-hidden="true" />
