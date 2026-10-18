@@ -8,6 +8,7 @@ import { ScrollManager } from "@/components/ScrollManager";
 import { ChatBot } from "@/components/ChatBot";
 import { PageTransition } from "@/components/PageTransition";
 import { CursorGlow } from "@/components/CursorGlow";
+import { PageWave } from "@/components/PageWave";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { brand, DEFAULT_THEME, seo, siteUrl, THEME_KEY, VISIBLE_THEMES } from "@/lib/site";
 
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessInfo) }} />
       </head>
       <body>
+        <PageWave />
         <ScrollManager />
         <CursorGlow />
         <RevealOnScroll />

@@ -5,6 +5,7 @@ import { AskBotButton } from "@/components/AskBotButton";
 import { brand, faqs, projects, steps } from "@/lib/site";
 import { Acc, Roll } from "../Roll";
 import { HandCoded } from "../HandCoded";
+import { CardFlow } from "./CardFlow";
 import { CardGlow } from "./CardGlow";
 import { Shot } from "./Mini";
 
@@ -21,8 +22,6 @@ const PROMISES: [string, string, string][] = [
 export function StudioHero() {
   return (
     <section className="s-hero">
-      <div className="s-hero__blob s-hero__blob--l" aria-hidden="true" />
-      <div className="s-hero__blob s-hero__blob--r" aria-hidden="true" />
       <div className="s-wrap s-hero__grid">
         <div className="s-hero__in">
           <p className="kicker s-rise">Hand-coded, never templated</p>
@@ -134,12 +133,10 @@ const Tick = () => <svg viewBox="0 0 24 24" width="14" height="14" fill="none" s
 
 export function Approach() {
   return (
-    <section className="s-section s-approach" id="why">
+    <>
       <CardGlow />
-      <div className="s-wrap">
-        <div data-reveal><p className="kicker">Why it works</p><h2 className="s-h s-h--md">Built to bring in <Acc>customers.</Acc></h2></div>
-        <div className="s-bento">
-          <article className="s-card s-card--a" data-reveal>
+      <CardFlow count={6}>
+          <article className="s-card s-card--a">
             <span className="s-card__bg" aria-hidden="true" />
             <h3>We listen first</h3>
             <p>We start with <strong>your customers</strong>: who they are, what they ask, and why they should pick you.</p>
@@ -151,7 +148,7 @@ export function Approach() {
             </div>
           </article>
 
-          <article className="s-card s-card--b" data-reveal>
+          <article className="s-card s-card--b">
             <span className="s-card__bg" aria-hidden="true" />
             <h3>Made for phones</h3>
             <p>Every layout is made for the phone first, where <strong>most of your visitors are</strong>.</p>
@@ -163,7 +160,7 @@ export function Approach() {
             </div>
           </article>
 
-          <article className="s-card s-card--c" data-reveal>
+          <article className="s-card s-card--c">
             <span className="s-card__bg" aria-hidden="true" />
             <h3>Built to get enquiries</h3>
             <p>Clear buttons and short forms that turn visitors into <strong>enquiries</strong>.</p>
@@ -178,7 +175,7 @@ export function Approach() {
             </div>
           </article>
 
-          <article className="s-card s-card--e" data-reveal>
+          <article className="s-card s-card--e">
             <span className="s-card__bg" aria-hidden="true" />
             <h3>See it before we build</h3>
             <p>You approve the design first. <strong>No surprises</strong> on launch day.</p>
@@ -194,9 +191,24 @@ export function Approach() {
             </div>
           </article>
 
-          <article className="s-card s-card--f" data-reveal>
+          <article className="s-card s-card--g">
             <span className="s-card__bg" aria-hidden="true" />
-            <span className="s-sky" aria-hidden="true"><i className="s-moon" /><i className="s-shoot" /></span>
+            <h3>Found on Google</h3>
+            <p>Fast pages and Google-ready SEO, so people searching nearby <strong>find you first</strong>.</p>
+            <div className="s-art s-art--search" aria-hidden="true">
+              <div className="s-search">
+                <div className="s-search__bar"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></svg><span className="s-search__q">café near me</span></div>
+                <div className="s-search__list">
+                  <div className="s-search__res s-search__res--top"><i>yourcafe.in</i><b>Your Café · Order ahead</b><em>Open now · 1.2 km · Menu online</em><span className="s-search__badge">#1</span></div>
+                  <div className="s-search__res s-search__res--o1"><i>listings-site.com</i><b /><em /></div>
+                  <div className="s-search__res s-search__res--o2"><i>old-directory.com</i><b /><em /></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article className="s-card s-card--f">
+            <span className="s-card__bg" aria-hidden="true" />
             <h3>Works while you sleep</h3>
             <p>Orders, bookings and enquiries land on <strong>your WhatsApp</strong>, sorted and answered, even at 2 am.</p>
             <div className="s-art s-art--notify" aria-hidden="true">
@@ -208,9 +220,8 @@ export function Approach() {
               ))}
             </div>
           </article>
-        </div>
-      </div>
-    </section>
+      </CardFlow>
+    </>
   );
 }
 

@@ -10,7 +10,7 @@ export function CursorGlow() {
     const el = ref.current;
     if (!el) return;
     let raf = 0, x = 0, y = 0, fade: ReturnType<typeof setTimeout> | undefined;
-    const paint = () => { raf = 0; el.style.setProperty("--gx", `${x}px`); el.style.setProperty("--gy", `${y}px`); };
+    const paint = () => { raf = 0; el.style.transform = `translate3d(${x}px, ${y}px, 0)`; }; // moving a layer (GPU), not repainting the screen
     const at = (cx: number, cy: number) => {
       x = cx; y = cy;
       el.dataset.on = "true";
