@@ -24,7 +24,7 @@ const cols = [
 export function Footer() {
   return (
     <footer className="s-foot">
-      <div className="s-wrap">
+      <div className="s-wrap s-foot__cta">
         <h2 className="s-h s-foot__title">Your website,<br /><Acc>live in a week.</Acc></h2>
         <div className="s-ctas s-ctas--center">
           <Link href="/work" className="s-btn s-btn--line"><Roll>See our work</Roll></Link>

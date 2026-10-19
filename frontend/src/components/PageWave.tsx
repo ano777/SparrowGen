@@ -18,5 +18,5 @@ export function PageWave() {
     mo.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     return () => mo.disconnect();
   }, []);
-  return <GradientWave key={night ? "night" : "cream"} colors={night ? NIGHT : CREAM} className="s-page-wave" />;
+  return <GradientWave key={night ? "night" : "cream"} colors={night ? NIGHT : CREAM} className="s-page-wave" resolution={0.34} fps={24} pauseOnScroll />;
 }

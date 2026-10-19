@@ -441,14 +441,15 @@ export const CATEGORIES: Category[] = [
     story: "We started small and grew by word of mouth. Today we still answer every call ourselves and treat every customer like a neighbour.",
     features: [["Experienced team", "Years of doing this well."], ["Fair pricing", "Clear quotes, no hidden extras."], ["Quick response", "Replies within the hour."], ["Local and trusted", "Proudly serving the neighbourhood."]],
     steps: [["Get in touch", "Call, WhatsApp or visit."], ["Get a quote", "A clear price before we start."], ["We deliver", "On time, done properly."], ["Stay in touch", "We are here if you need us."]],
-    team: [["Founder", "photo-1556474835-b0f3ac40d4d1"], ["Customer care", "photo-1753351056544-7446ea89311c"], ["Head of work", "photo-1611523794717-4d1f87dabf3b"]],
+    team: [["Founder", "photo-1769636929231-3cd7f853d038"], ["Customer care", "photo-1791232776234-083dddacf26a"], ["Head of work", "photo-1765776830139-72b2184dae5a"]],
     platforms: ["Google Maps", "WhatsApp", "Instagram", "Justdial", "Facebook"],
     hours: "Mon to Sat, 10am to 7pm",
     photos: {
-      hero: ["photo-1687422808191-93810cd07ab0", "photo-1759860002165-f059bfcee759", "photo-1556745753-b2904692b3cd"],
-      items: ["photo-1687422808248-f807f4ea2a2e", "photo-1568992688065-536aad8a12f6", "photo-1553775282-20af80779df7"],
-      gallery: ["photo-1761783536272-2fb78dd52c76", "photo-1683115099191-51e617fc5ff1", "photo-1734576861113-8dcab61bc59d", "photo-1573612664822-d7d347da7b80", "photo-1571204829887-3b8d69e4094d", "photo-1753164597612-5e71b83fda91"],
-      about: "photo-1573164574572-cb89e39749b4",
+      // "Something else" fits any business, so it uses surreal 3D art instead of a particular shop or trade.
+      hero: ["photo-1781100037733-fbdfc1629114", "photo-1775112862799-c5a37b44b81a", "photo-1791316326170-092a51fdcf17"],
+      items: ["photo-1776244798324-3375e443d534", "photo-1671519821564-ced7e41ee7ae", "photo-1763930827018-e7c1b7704cf0"],
+      gallery: ["photo-1694079869875-e79471dc03fc", "photo-1725789111197-821c554297f8", "photo-1761646592828-9e67256f1eee", "photo-1618005198919-d3d4b5a92ead", "photo-1696550580343-4f339143b465", "photo-1637611331620-51149c7ceb94"],
+      about: "photo-1624820928414-9a350cc250e6",
     },
     palettes: {
       bold: { bg: "#140c1c", surface: "#21152c", text: "#f6f1fb", muted: "#b4a8c4", accent: "#d62976", accentText: "#ffffff" },

@@ -62,8 +62,9 @@
 @keyframes s-rise { from { opacity: 0; translate: 0 18px; } }
 /* hold page entrances until the transition overlay opens */
 html[data-pt="intro"] .s-rise, html[data-pt="cover"] .s-rise, html[data-pt="hold"] .s-rise { animation-play-state: paused; }
-html[data-js] [data-reveal] { opacity: 0; translate: 0 26px; transition: opacity 0.8s var(--s-ease), translate 0.8s var(--s-ease); }
-html[data-js] [data-reveal][data-shown="true"] { opacity: 1; translate: 0 0; }
+/* (the sample sites in the /preview tool (.ps) run their own [data-reveal] system, so they are left out here) */
+html[data-js] [data-reveal]:not(.ps [data-reveal]) { opacity: 0; translate: 0 26px; transition: opacity 0.8s var(--s-ease), translate 0.8s var(--s-ease); }
+html[data-js] [data-reveal][data-shown="true"]:not(.ps [data-reveal]) { opacity: 1; translate: 0 0; }
 
 /* ---------- nav ---------- */
 .s-nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border-bottom: 1px solid transparent; transition: border-color 0.3s ease; }
@@ -208,7 +209,7 @@ html[data-js] [data-reveal][data-shown="true"] { opacity: 1; translate: 0 0; }
   box-shadow: 0 30px 60px -40px rgba(60, 20, 40, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 /* the drifting aurora lives in its own hard-clipped layer, so it can never spill over the neighbouring cards */
-.s-card__bg { position: absolute !important; inset: 0; z-index: 0 !important; border-radius: inherit; overflow: hidden; clip-path: inset(0 round 24px); pointer-events: none; }
+.s-card__bg { position: absolute !important; inset: 0; z-index: 0 !important; border-radius: inherit; overflow: hidden; pointer-events: none; transform: translateZ(0); }
 .s-card__bg::before {
   content: ""; position: absolute; inset: -25%;
   background:
@@ -341,8 +342,8 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 .s-foot .s-ctas { margin-top: 36px; }
 .s-foot__glow {
   position: absolute; z-index: -1; left: 50%; bottom: 0; width: min(1200px, 120vw); height: 85%; translate: -50% 0;
-  background: radial-gradient(40% 50% at 30% 60%, rgba(250, 126, 30, 0.35), transparent 70%), radial-gradient(40% 50% at 70% 55%, rgba(150, 47, 191, 0.3), transparent 70%), radial-gradient(35% 45% at 50% 40%, rgba(214, 41, 118, 0.25), transparent 70%);
-  filter: blur(60px);
+  /* already-soft gradients: no blur filter needed (a 60px blur on a page-wide layer was the footer's one dropped frame) */
+  background: radial-gradient(45% 55% at 30% 60%, rgba(250, 126, 30, 0.3), transparent 75%), radial-gradient(45% 55% at 70% 55%, rgba(150, 47, 191, 0.26), transparent 75%), radial-gradient(40% 50% at 50% 40%, rgba(214, 41, 118, 0.22), transparent 75%);
 }
 .s-foot__panel {
   position: relative; margin-top: clamp(80px, 9vw, 130px); text-align: left;
@@ -573,15 +574,22 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 
 .s-flow__track { display: flex; gap: clamp(16px, 2.4vw, 32px); padding-inline: calc(50% - var(--cw) / 2); will-change: transform; counter-reset: card; }
 .s-flow .s-card {
-  --d: 0; --ad: 0;
   flex: 0 0 var(--cw); height: var(--ch); min-height: 0;
-  transform: perspective(1400px) rotateY(clamp(-28deg, calc(var(--d) * -16deg), 28deg)) scale(calc(1 - var(--ad) * 0.09));
-  opacity: calc(1 - var(--ad) * 0.28);
   transition: box-shadow 0.5s ease;
 }
-.s-flow .s-card.is-on { box-shadow: 0 50px 90px -40px color-mix(in srgb, var(--c1) 70%, transparent), inset 0 0 0 1px rgba(255, 255, 255, 0.4); }
+/* the in-focus glow is a pre-drawn layer that only fades (opacity is cheap; animating box-shadow repaints every frame) */
+.s-flow .s-card { will-change: transform, opacity; box-shadow: 0 30px 60px -40px rgba(60, 20, 40, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.35); transition: none; }
+.s-flow .s-card__bg::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 -40px 80px -40px color-mix(in srgb, var(--c1) 60%, transparent); opacity: 0; transition: opacity 0.5s ease; }
+.s-flow .s-card.is-on .s-card__bg::after { opacity: 1; }
+/* only the card in focus keeps its colour drifting; the others hold still */
+.s-flow .s-card:not(.is-on) .s-card__bg::before { animation-play-state: paused; }
+/* no live frosted-glass blur inside the moving cards (solid fills look the same and cost nothing) */
+.s-flow .s-card * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.s-flow .s-bubble--in, .s-flow .s-form, .s-flow .s-search { background: rgba(255, 255, 255, 0.94); }
+.s-flow .s-chip { background: rgba(40, 20, 70, 0.72); }
+.s-flow .s-note { background: rgba(255, 255, 255, 0.12); }
 /* the scene inside drifts a little against the card's movement (depth) */
-.s-flow .s-card .s-art { transform: translateX(calc(var(--d) * 22px)); }
+.s-flow .s-card .s-art { will-change: transform; } /* moved by CardFlow.tsx */
 /* step number above each title */
 .s-flow .s-card h3::before { counter-increment: card; content: counter(card, decimal-leading-zero); display: block; margin-bottom: 10px; font: 700 12px/1 var(--mono); letter-spacing: 0.1em; opacity: 0.6; }
 .s-flow .s-card--f .s-art { margin-top: auto; }
@@ -608,10 +616,96 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 
 /* performance: cards far from focus pause their looping scenes */
 .s-flow .s-card.is-far *, .s-flow .s-card.is-far .s-card__bg::before { animation-play-state: paused !important; }
-/* touch screens: swap live glass blur inside the cards for solid fills (looks the same, much lighter for phone GPUs) */
+
+/* pages that already end with their own "Ready when you are" call to action (e.g. /why-us) skip the footer's one */
+main:has(.final) + .s-foot { padding-top: 0; border-top: 0; }
+main:has(.final) + .s-foot .s-foot__cta { display: none; }
+main:has(.final) + .s-foot .s-foot__panel { margin-top: 0; }
+
+/* ---------- curved row (components/ui/curved-row.tsx) ---------- */
+.cr { position: relative; overflow: hidden; }
+.cr__mask { position: absolute; inset: 0; pointer-events: none; isolation: isolate; transition: opacity 0.6s ease; }
+.cr__band { position: absolute; inset: 0; }
+.cr__tile { position: absolute; transform-style: preserve-3d; will-change: transform; }
+.cr[data-play="false"] .cr__tile { animation-play-state: paused !important; }
+.cr__slice { position: absolute; top: 0; overflow: hidden; backface-visibility: hidden; }
+.cr__slice--first { border-radius: calc(var(--th) * 0.06) 0 0 calc(var(--th) * 0.06); }
+.cr__slice--last { border-radius: 0 calc(var(--th) * 0.06) calc(var(--th) * 0.06) 0; }
+.cr__face { position: absolute; top: 0; }
+@media (prefers-reduced-motion: reduce) { .cr__tile { animation-play-state: paused !important; } }
+
+/* ---------- /preview hero: centred heading over the curved row of sample sites ---------- */
+.pv-head__in { display: block; text-align: center; }
+.pv-head__in > div { max-width: 820px; margin-inline: auto; }
+.pv-head__in .page-head__title span { display: block; }
+.pv-head__in .lede { margin-inline: auto; max-width: 52ch; }
+.pv-head__in .pv-pills { justify-content: center; }
+.pv-row { height: clamp(290px, 32vw, 470px); margin-top: clamp(14px, 2vw, 28px); }
+/* a soft pink "floor" glow under the row, so it sits in the page instead of on top of it */
+.pv-row::before { content: ""; position: absolute; left: 10%; right: 10%; bottom: 2%; height: 30%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(214, 41, 118, 0.22), rgba(250, 126, 30, 0.1) 60%, transparent); filter: blur(10px); }
+
+.pv-live { position: relative; }
+
+/* ---- sample website cards: three layouts, three type styles, true-colour photos ---- */
+.pv-rcard { --t: var(--th); position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden; border-radius: calc(var(--t) * 0.055); background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9); }
+.pv-rcard__bar { flex: none; display: flex; align-items: center; gap: calc(var(--t) * 0.018); height: calc(var(--t) * 0.085); padding-inline: calc(var(--t) * 0.04); background: linear-gradient(90deg, #fff4ee, #fbe9f2); }
+.pv-rcard__bar i { width: calc(var(--t) * 0.022); height: calc(var(--t) * 0.022); border-radius: 50%; background: #e7bfcd; }
+.pv-rcard__bar i:first-child { background: #f6a48a; }
+.pv-rcard__url { margin-left: calc(var(--t) * 0.02); padding: calc(var(--t) * 0.006) calc(var(--t) * 0.03); border-radius: 999px; background: #fff; color: #8a5a6a; font: 500 calc(var(--t) * 0.03)/1.2 var(--mono); white-space: nowrap; }
+.pv-rcard__body { position: relative; flex: 1; overflow: hidden; }
+.pv-rcard__body img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pv-rcard__nav { position: absolute; top: 0; left: 0; right: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: calc(var(--t) * 0.04) calc(var(--t) * 0.055); color: #fff; }
+.pv-rcard__brand { font: 800 calc(var(--t) * 0.045)/1 var(--display); letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%; }
+.pv-rcard__nav span { display: flex; gap: calc(var(--t) * 0.035); font: 600 calc(var(--t) * 0.028)/1 var(--body); opacity: 0.85; }
+.pv-rcard__nav i { font-style: normal; }
+.pv-rcard__copy { position: absolute; z-index: 2; color: #fff; }
+.pv-rcard__copy small { display: block; font: 700 calc(var(--t) * 0.028)/1 var(--body); letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.85; }
+.pv-rcard__copy strong { display: block; margin-top: calc(var(--t) * 0.02); font: 800 calc(var(--t) * 0.082)/1.02 var(--display); letter-spacing: -0.025em; }
+.pv-rcard__copy em { display: inline-block; margin-top: calc(var(--t) * 0.04); padding: calc(var(--t) * 0.02) calc(var(--t) * 0.05); border-radius: 999px; background: var(--a); color: #fff;
+  font: 700 calc(var(--t) * 0.032)/1.2 var(--body); font-style: normal; box-shadow: 0 calc(var(--t) * 0.02) calc(var(--t) * 0.05) calc(var(--t) * -0.02) var(--a); }
+/* type styles */
+.pv-font--elegant .pv-rcard__copy strong { font-family: var(--font-elegant), Georgia, serif; font-weight: 500; font-style: italic; letter-spacing: -0.01em; font-size: calc(var(--t) * 0.09); }
+.pv-font--statement .pv-rcard__copy strong { font-family: var(--font-statement), Impact, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: 0.01em; font-size: calc(var(--t) * 0.12); line-height: 0.95; }
+/* layout: full photo, copy bottom-left */
+.pv-rcard--full .pv-rcard__body::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 26%, transparent 45%, rgba(10, 5, 20, 0.72)); }
+.pv-rcard--full .pv-rcard__copy { left: 7%; right: 10%; bottom: 8%; }
+/* layout: centred statement over the photo */
+.pv-rcard--center .pv-rcard__body::after { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(ellipse at 50% 60%, rgba(10, 5, 20, 0.55), rgba(10, 5, 20, 0.2) 70%), linear-gradient(180deg, rgba(0, 0, 0, 0.3), transparent 30%); }
+.pv-rcard--center .pv-rcard__copy { left: 8%; right: 8%; top: 50%; translate: 0 -40%; text-align: center; }
+/* layout: light split, copy on a cream panel, photo on the right */
+.pv-rcard--split .pv-rcard__body { background: #fff8f3; }
+.pv-rcard--split .pv-rcard__body img { left: 46%; width: 54%; }
+.pv-rcard--split .pv-rcard__nav { color: #2a1520; background: #fff8f3; }
+.pv-rcard--split .pv-rcard__copy { left: 6%; width: 38%; top: 50%; translate: 0 -38%; color: #2a1520; }
+.pv-rcard--split .pv-rcard__copy small { color: var(--a); opacity: 1; }
+.pv-rcard--split .pv-rcard__copy strong { font-size: calc(var(--t) * 0.07); }
+.pv-rcard--split.pv-font--elegant .pv-rcard__copy strong { font-size: calc(var(--t) * 0.078); }
+/* the name / address plays a short shimmer whenever it changes */
+.pv-rcard__brand, .pv-rcard__url { animation: pv-name-in 0.7s var(--s-ease) both; }
+@keyframes pv-name-in { from { opacity: 0; filter: blur(4px); translate: 0 30%; } }
+
+/* ---- spotlight: the card passing the centre gets a glowing gradient ring and a light sweep ---- */
+.pv-rcard::after { content: ""; position: absolute; inset: 0; z-index: 5; border-radius: inherit; padding: calc(var(--t) * 0.012); pointer-events: none;
+  background: var(--grad-x); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0; animation: pv-spot var(--dur) linear var(--delay) infinite; }
+@keyframes pv-spot { 0%, 41% { opacity: 0; } 48%, 52% { opacity: 1; } 59%, 100% { opacity: 0; } }
+.pv-rcard__sheen { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%; background-position: 150% 0; animation: pv-sheen var(--dur) linear var(--delay) infinite; mix-blend-mode: soft-light; }
+@keyframes pv-sheen { 0%, 45% { background-position: 150% 0; } 55%, 100% { background-position: -60% 0; } }
+.pv-row .cr__tile::before { content: ""; position: absolute; inset: -6%; z-index: -1; border-radius: 12%; background: radial-gradient(closest-side, rgba(214, 41, 118, 0.45), rgba(150, 47, 191, 0.25) 60%, transparent);
+  filter: blur(14px); opacity: 0; animation: pv-spot var(--dur) linear var(--delay) infinite; transform: translateZ(-2px); }
+.cr[data-play="false"] .cr__tile *, .cr[data-play="false"] .cr__tile::before { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .pv-rcard::after, .pv-rcard__sheen, .pv-row .cr__tile::before { animation: none !important; } }
+
+@media (max-width: 700px) {
+  .pv-row { height: clamp(300px, 88vw, 360px); }
+}
+
+/* phones: lighter frosted-glass blurs (cost grows with the blur radius; still reads as frosted) */
 @media (pointer: coarse) {
-  .s-flow .s-card * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
-  .s-flow .s-bubble--in, .s-flow .s-form, .s-flow .s-search { background: rgba(255, 255, 255, 0.94); }
-  .s-flow .s-chip { background: rgba(40, 20, 70, 0.72); }
-  .s-flow .s-note { background: rgba(255, 255, 255, 0.12); }
+  .s-nav { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .s-foot__panel { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); background: color-mix(in srgb, var(--surface) 80%, transparent); }
+  .pv-get { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--surface) 92%, transparent); }
 }

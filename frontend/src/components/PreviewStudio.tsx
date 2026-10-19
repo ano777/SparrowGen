@@ -60,6 +60,8 @@ export function PreviewStudio() {
     setErrors(err);
     if (Object.keys(err).length) return;
     setStep("loading");
+    // "Something else" opens on Complete (its richest design); every other business type opens on Bold.
+    setDesign(catId === "other" ? "complete" : "bold");
     setTimeout(() => {
       setStep("result");
       requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -107,14 +109,14 @@ export function PreviewStudio() {
         </div>
 
         <button className="btn btn--grad pv-go" disabled={step === "loading"}>
-          {step === "loading" ? `Picking ${DESIGNS.length} designs for ${cat?.label ?? "you"}…` : <>Show my website <span aria-hidden="true">→</span></>}
+          {step === "loading" ? `Picking ${DESIGNS.length} designs for ${cat?.label ?? "you"}…` : <>Preview sample designs <span aria-hidden="true">→</span></>}
         </button>
         {step === "loading" && <div className="pv-loading" aria-hidden="true"><i /></div>}
         <p className="muted small">Free, instant, no sign-up. Nothing is saved until you book.</p>
       </form>
       <aside className="pv-get" aria-label="What you'll get">
         <p className="pv-get__kicker">What you&apos;ll get</p>
-        <h2>4 designs, with your name on them</h2>
+        <h2>4 sample styles to explore</h2>
         <ul>
           {DESIGNS.map((d, i) => (
             <li key={d.id} style={{ "--c": GET_COLORS[i] } as React.CSSProperties}>
@@ -200,7 +202,7 @@ export function PreviewStudio() {
       </section>
 
       <div className="studio__cta">
-        <button className="btn btn--grad" onClick={book}>I like this one — book it</button>
+        <button className="btn btn--grad" onClick={book}>I like this concept — let’s talk</button>
         <span className="studio__trial">Free trial included</span>
         <p className="studio__fine">This preview is only a starting point. We customise every page to your needs.</p>
         <Link href="/work" className="studio__link">Or see sites we&apos;ve built</Link>

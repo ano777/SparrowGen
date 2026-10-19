@@ -17,6 +17,8 @@ export function CardFlow({ children, count }: { children: React.ReactNode; count
     if (!s || !st || !t) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return; // CSS shows a plain swipeable row instead
     const cards = [...t.children] as HTMLElement[];
+    const arts = cards.map((c) => c.querySelector<HTMLElement>(".s-art"));
+    const meta = st.querySelector<HTMLElement>(".s-flow__meta");
     const tints = cards.map((c) => getComputedStyle(c).getPropertyValue("--c1").trim() || "#d62976");
     let range = 0, raf = 0, last = -1;
 
@@ -35,8 +37,12 @@ export function CardFlow({ children, count }: { children: React.ReactNode; count
       t.style.transform = `translate3d(${(-p * range).toFixed(1)}px,0,0)`;
       cards.forEach((c, i) => {
         const d = i - f;
-        c.style.setProperty("--d", d.toFixed(3));
-        c.style.setProperty("--ad", Math.min(Math.abs(d), 2).toFixed(3));
+        // Set transform/opacity directly (not via inherited CSS variables, which would restyle every element inside the card each frame).
+        const ad = Math.min(Math.abs(d), 2);
+        c.style.transform = `perspective(1400px) rotateY(${Math.max(-28, Math.min(28, d * -16)).toFixed(2)}deg) scale(${(1 - ad * 0.09).toFixed(4)})`;
+        c.style.opacity = (1 - ad * 0.28).toFixed(3);
+        const art = arts[i];
+        if (art) art.style.transform = `translate3d(${(d * 22).toFixed(1)}px,0,0)`;
         c.classList.toggle("is-on", Math.abs(d) < 0.5);
         c.classList.toggle("is-far", Math.abs(d) > 1.3); // off-screen cards pause their scenes (saves battery and keeps phones smooth)
       });
@@ -46,7 +52,7 @@ export function CardFlow({ children, count }: { children: React.ReactNode; count
         if (num.current) num.current.textContent = String(i + 1).padStart(2, "0");
         st.style.setProperty("--tint", tints[i]);
       }
-      st.style.setProperty("--p", p.toFixed(4));
+      meta?.style.setProperty("--p", p.toFixed(4)); // only the counter/bar/hint read it
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     size();

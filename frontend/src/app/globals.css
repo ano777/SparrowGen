@@ -677,8 +677,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @keyframes pvDrift { to { transform: translate(-8%, 10%) scale(1.15); } }
 .pv-head__in { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4%; align-items: center; }
 .pv-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
-.pv-pills li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--ink); font-size: 0.88rem; font-weight: 600; }
-.pv-pills i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.pv-pills li { display: inline-flex; align-items: center; padding: 9px 16px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--ink); font-family: var(--display); font-size: 0.95rem; font-weight: 700; letter-spacing: -0.015em; }
 
 .pv-fan { position: relative; height: clamp(320px, 34vw, 440px); }
 .pv-card { position: absolute; width: 60%; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08); animation: pvFloat 6s ease-in-out infinite; animation-delay: calc(var(--i) * -2s); transition: rotate 0.5s ease, scale 0.5s ease; }

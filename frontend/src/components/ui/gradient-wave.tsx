@@ -280,12 +280,14 @@ class MiniGl {
     };
   }
 
-  setSize(w = 640, h = 480): void {
+  /** w/h are CSS pixels (all the maths uses them); `scale` shrinks only the drawing buffer, which the browser stretches back up. */
+  setSize(w = 640, h = 480, scale = 1): void {
     this.width = w;
     this.height = h;
-    this.canvas.width = w;
-    this.canvas.height = h;
-    this.gl.viewport(0, 0, w, h);
+    const bw = Math.max(1, Math.round(w * scale)), bh = Math.max(1, Math.round(h * scale));
+    this.canvas.width = bw;
+    this.canvas.height = bh;
+    this.gl.viewport(0, 0, bw, bh);
     this.commonUniforms.resolution.value = [w, h];
     this.commonUniforms.aspectRatio.value = w / h;
   }
@@ -311,9 +313,16 @@ class Gradient {
   animationId?: number;
   isPlaying = false;
 
-  constructor(canvas: HTMLCanvasElement, colors: string[]) {
+  scale: number;
+  frameMs: number;
+  scrolling = false;
+  private scrollTimer?: ReturnType<typeof setTimeout>;
+
+  constructor(canvas: HTMLCanvasElement, colors: string[], scale = 1, fps = 60) {
     this.canvas = canvas;
     this.colors = colors;
+    this.scale = scale;
+    this.frameMs = 1000 / fps;
     this.minigl = new MiniGl(canvas);
     this.init();
   }
@@ -478,9 +487,10 @@ void main() {
     const box = this.canvas.parentElement;
     const width = Math.max(1, box?.clientWidth || window.innerWidth);
     const height = Math.max(1, box?.clientHeight || window.innerHeight);
-    this.minigl.setSize(width, height);
+    this.minigl.setSize(width, height, this.scale);
     this.minigl.setOrthographicCamera();
-    this.mesh.geometry.setTopology(Math.ceil(width * 0.02), Math.ceil(height * 0.05));
+    // a soft gradient doesn't need a fine mesh: fewer triangles, same look
+    this.mesh.geometry.setTopology(Math.max(8, Math.ceil(width * 0.012)), Math.max(8, Math.ceil(height * 0.03)));
     this.mesh.geometry.setSize(width, height);
     this.mesh.material.uniforms.u_shadow_power.value = width < 600 ? 5 : 6;
     if (!this.isPlaying) this.minigl.render();
@@ -488,11 +498,21 @@ void main() {
 
   animate = (timestamp: number): void => {
     if (!this.isPlaying) return;
+    this.animationId = requestAnimationFrame(this.animate);
+    // While the page is scrolling, hold the current frame: scrolling gets the whole GPU, and anything blurred
+    // on top (frosted nav, footer) doesn't have to be re-blurred every frame. Also capped to `fps` frames a second.
+    if (this.scrolling || timestamp - this.last < this.frameMs - 1) return;
     this.time += Math.min(timestamp - this.last, 1000 / 15);
     this.last = timestamp;
     this.mesh.material.uniforms.u_time.value = this.time;
     this.minigl.render();
-    this.animationId = requestAnimationFrame(this.animate);
+  };
+
+  /** Call on every scroll event; drawing resumes a moment after scrolling stops. */
+  onScroll = (): void => {
+    this.scrolling = true;
+    clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => { this.scrolling = false; this.last = performance.now(); }, 180);
   };
 
   start(): void {
@@ -519,6 +539,12 @@ void main() {
 export interface GradientWaveProps {
   /** First colour is the base; the rest flow over it as waves. Pass a stable (module-level) array. */
   colors: string[];
+  /** Drawing-buffer resolution vs. CSS size. A soft gradient looks the same at 0.35 and costs ~8x less. @default 1 */
+  resolution?: number;
+  /** Frame-rate cap. @default 60 */
+  fps?: number;
+  /** Hold the picture still while the page scrolls (smoother scrolling). @default false */
+  pauseOnScroll?: boolean;
   className?: string;
   shadowPower?: number;
   darkenTop?: boolean;
@@ -532,6 +558,9 @@ const DEFAULT_DEFORM = { incline: 0.5, noiseAmp: 250, noiseFlow: 5 };
 
 export function GradientWave({
   colors,
+  resolution = 1,
+  fps = 60,
+  pauseOnScroll = false,
   className = "",
   shadowPower = 8,
   darkenTop = false,
@@ -545,14 +574,14 @@ export function GradientWave({
     const box = containerRef.current;
     if (!box) return;
     const canvas = document.createElement("canvas");
-    Object.assign(canvas.style, { position: "absolute", top: "0", left: "0", width: "100%", height: "100%", display: "block" });
+    Object.assign(canvas.style, { position: "absolute", top: "0", left: "0", width: "100%", height: "100%", display: "block" }); // CSS size; the buffer may be smaller (see `resolution`)
     box.appendChild(canvas);
 
     let gradient: Gradient | null = null;
     let io: IntersectionObserver | null = null;
     let ro: ResizeObserver | null = null;
     try {
-      gradient = new Gradient(canvas, colors);
+      gradient = new Gradient(canvas, colors, resolution, fps);
       const u = gradient.mesh.material.uniforms;
       u.u_shadow_power.value = shadowPower;
       u.u_darken_top.value = darkenTop ? 1 : 0;
@@ -570,19 +599,21 @@ export function GradientWave({
       }
       ro = new ResizeObserver(() => g.resize());
       ro.observe(box);
+      if (pauseOnScroll) window.addEventListener("scroll", g.onScroll, { passive: true });
       box.dataset.ready = "true";
     } catch (error) {
       console.error("Gradient background unavailable:", error); // the CSS fallback background stays visible
     }
 
     return () => {
+      if (gradient) window.removeEventListener("scroll", gradient.onScroll);
       io?.disconnect();
       ro?.disconnect();
       gradient?.stop();
       gradient?.minigl.gl.getExtension("WEBGL_lose_context")?.loseContext();
       canvas.remove();
     };
-  }, [colors, shadowPower, darkenTop, noiseSpeed, noiseFrequency, deform]);
+  }, [colors, resolution, fps, pauseOnScroll, shadowPower, darkenTop, noiseSpeed, noiseFrequency, deform]);
 
   return <div ref={containerRef} className={`ui-gradient-wave ${className}`} aria-hidden="true" />;
 }
