@@ -118,9 +118,10 @@ export type Project = {
   category: string; // filter chip on /work
 };
 
-// Concept sites until real client work (with testimonials) is ready. Keep this list short.
+// Our work: client sites first, then concept sites. Keep this list short.
 // Real client projects must NOT have concept: true; concept ones must keep it.
 export const projects: Project[] = [
+  { slug: "dk-banquet", category: "Banquet", name: "D. K. Banquet", kind: "Banquet hall website", result: "Book-your-date enquiries", palette: ["#6e1424", "#fbf7f0", "#c9a86a"], headline: "Where every celebration becomes a memory.", url: "https://client-demo--dk-banquet-kolkata.netlify.app/", image: "/work/dk-banquet-hero.jpg", nav: ["Rooms", "Gallery", "Contact"] },
   { slug: "spotturf", concept: true, category: "Sports", name: "SpotTurf Kolkata", kind: "Turf booking website", result: "Live slot booking", palette: ["#0f3d27", "#f2efe4", "#f6c21c"], headline: "Play till midnight in Kasba.", url: "https://spot-turfs.netlify.app/", image: "/work/spotturf-cover.webp", nav: ["Book", "Rates", "Photos"] },
   { slug: "bhor", concept: true, category: "Café", name: "Bhor Coffee & Bakehouse", kind: "Cafe website", result: "Order ahead for pickup", palette: ["#1d3b36", "#f7f0e6", "#e9a23b"], headline: "Coffee from the hills. Baked at dawn, gone by noon.", url: "https://bhor-coffee.netlify.app/", image: "/work/bhor-coffee-cover.jpg", nav: ["Order", "Coffee", "Visit"] },
 ];

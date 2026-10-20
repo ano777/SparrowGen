@@ -9,7 +9,7 @@ import { CardStack } from "./CardStack";
 import { CardGlow } from "./CardGlow";
 import { Shot } from "./Mini";
 
-const [turf, bhor] = projects;
+const turf = projects.find((p) => p.slug === "spotturf")!, bhor = projects.find((p) => p.slug === "bhor")!;
 
 /* ------------------------------------------------------------ hero */
 // Three promises we already make elsewhere on the site (FAQ, About values). No made-up numbers.
@@ -92,7 +92,7 @@ export function Speaks() {
         </div>
         <div className="s-wall">
           {projects.map((p, i) => (
-            <a key={p.slug} href={p.url} target="_blank" rel="noopener noreferrer" className={`s-wall__t ${i % 2 ? "s-wall__t--b" : "s-wall__t--a"}`} data-reveal style={{ transitionDelay: `${i * 90}ms` }} aria-label={`Open ${p.name} (concept) in a new tab`}>
+            <a key={p.slug} href={p.url} target="_blank" rel="noopener noreferrer" className={`s-wall__t ${i % 2 ? "s-wall__t--b" : "s-wall__t--a"}`} data-reveal style={{ transitionDelay: `${i * 90}ms` }} aria-label={`Open ${p.name}${p.concept ? " (concept)" : ""} in a new tab`}>
               <span className="s-wall__img"><Image src={p.image!} alt={`${p.name} website homepage`} fill sizes="(max-width: 860px) 100vw, 620px" /></span>
               <span className="s-wall__cap"><b>{p.name}</b>{p.concept && <span className="s-tag">Concept</span>}<em>{p.kind} ↗</em></span>
             </a>
