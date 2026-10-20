@@ -5,7 +5,7 @@ import { AskBotButton } from "@/components/AskBotButton";
 import { brand, faqs, projects, steps } from "@/lib/site";
 import { Acc, Roll } from "../Roll";
 import { HandCoded } from "../HandCoded";
-import { CardFlow } from "./CardFlow";
+import { CardStack } from "./CardStack";
 import { CardGlow } from "./CardGlow";
 import { Shot } from "./Mini";
 
@@ -135,7 +135,7 @@ export function Approach() {
   return (
     <>
       <CardGlow />
-      <CardFlow count={6}>
+      <CardStack>
           <article className="s-card s-card--a">
             <span className="s-card__bg" aria-hidden="true" />
             <h3>We listen first</h3>
@@ -150,12 +150,16 @@ export function Approach() {
 
           <article className="s-card s-card--b">
             <span className="s-card__bg" aria-hidden="true" />
-            <h3>Made for phones</h3>
-            <p>Every layout is made for the phone first, where <strong>most of your visitors are</strong>.</p>
+            <h3>Made for every screen</h3>
+            <p>Built phone-first, then polished for laptops and desktops, so it looks right <strong>wherever your visitors are</strong>.</p>
             <div className="s-art s-art--phone" aria-hidden="true">
+              <div className="s-desk">
+                <div className="s-desk__screen"><Image src={bhor.image!} alt="" fill sizes="220px" /></div>
+                <span className="s-desk__stand" />
+              </div>
               <div className="s-phone"><Image src={bhor.image!} alt="" fill sizes="220px" /><span className="s-phone__notch" /></div>
               <span className="s-chip s-chip--1">👆 Thumb-friendly</span>
-              <span className="s-chip s-chip--2">⚡ Fast on mobile data</span>
+              <span className="s-chip s-chip--2">🖥️ Sharp on desktop</span>
               <span className="s-chip s-chip--3">📞 Tap to call</span>
             </div>
           </article>
@@ -220,7 +224,7 @@ export function Approach() {
               ))}
             </div>
           </article>
-      </CardFlow>
+      </CardStack>
     </>
   );
 }

@@ -264,12 +264,19 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 .s-phone { position: relative; width: 200px; height: 250px; overflow: hidden; border: 8px solid #0b0812; border-bottom: 0; border-radius: 34px 34px 0 0; background: #0b0812; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 -20px 60px -20px rgba(255, 61, 139, 0.6); animation: s-bob 6s ease-in-out infinite; }
 .s-phone img { object-fit: cover; object-position: 0 0; width: 260% !important; max-width: none; left: 0 !important; animation: s-pan 12s ease-in-out infinite alternate; will-change: transform; } /* pans with transform (no repaint) */
 .s-phone__notch { position: absolute; top: 6px; left: 50%; width: 56px; height: 14px; translate: -50% 0; border-radius: 999px; background: #0b0812; }
+/* phone in front of a desktop screen: the same site on both */
+.s-art--phone .s-phone { position: absolute; right: 4%; bottom: 0; width: 118px; height: 210px; border-width: 6px; border-radius: 26px 26px 0 0; }
+.s-art--phone .s-phone__notch { width: 38px; height: 10px; }
+.s-desk { position: absolute; left: 0; bottom: 0; width: 205px; }
+.s-desk__screen { position: relative; height: 130px; overflow: hidden; border: 6px solid #0b0812; border-radius: 12px; background: #0b0812; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 20px 50px -20px rgba(120, 80, 255, 0.6); }
+.s-desk__screen img { object-fit: cover; object-position: 0 0; }
+.s-desk__stand { display: block; width: 52px; height: 26px; margin: 0 auto; background: linear-gradient(#2a2238, #0b0812); clip-path: polygon(28% 0, 72% 0, 100% 100%, 0 100%); }
 @keyframes s-pan { to { transform: translateX(-61.5%); } }
 @keyframes s-bob { 50% { translate: 0 -8px; } }
 .s-chip { position: absolute; padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; font: 600 12.5px/1 var(--body); white-space: nowrap; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: s-bob 5s ease-in-out infinite; }
-.s-chip--1 { left: 6%; top: 34%; animation-delay: -1s; }
-.s-chip--2 { right: 5%; top: 22%; animation-delay: -2.4s; }
-.s-chip--3 { right: 9%; top: 62%; animation-delay: -3.6s; }
+.s-chip--1 { right: 0; top: 30%; animation-delay: -1s; }
+.s-chip--2 { left: 0; top: 10%; animation-delay: -2.4s; }
+.s-chip--3 { right: 2%; top: 64%; animation-delay: -3.6s; }
 
 /* C — the form fills itself in, then the WhatsApp alert pops */
 .s-art--form { display: flex; justify-content: center; align-items: flex-end; }
@@ -288,10 +295,14 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 @keyframes s-toast { 0%, 56% { opacity: 0; translate: 0 -14px; scale: 0.9; } 62%, 92% { opacity: 1; translate: 0 0; scale: 1; } 100% { opacity: 0; } }
 
 /* E — sketch to design wipe, then "Approved" */
-@property --wipe { syntax: "<percentage>"; inherits: true; initial-value: 80%; }
 .s-art--ba { display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; padding-bottom: 24px; }
-.s-ba { --wipe: 80%; position: relative; height: 170px; overflow: hidden; border-radius: 14px; background: #f4f3fb; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 20px 40px -20px rgba(0, 0, 0, 0.6); animation: s-wipe 8s ease-in-out infinite; }
-@keyframes s-wipe { 0%, 8% { --wipe: 88%; } 46%, 60% { --wipe: 6%; } 100% { --wipe: 88%; } }
+.s-ba { position: relative; height: 170px; overflow: hidden; border-radius: 14px; background: #f4f3fb; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 20px 40px -20px rgba(0, 0, 0, 0.6); }
+/* the wipe slides with transforms only (no repaint each frame): the design layer and the handle move right-to-left
+   together, while the picture inside moves the opposite way so it stays put */
+.s-ba__real, .s-ba__handle { animation: s-wipe 8s ease-in-out infinite; }
+.s-ba__real > * { animation: s-wipe-in 8s ease-in-out infinite; }
+@keyframes s-wipe { 0%, 8% { transform: translateX(88%); } 46%, 60% { transform: translateX(6%); } 100% { transform: translateX(88%); } }
+@keyframes s-wipe-in { 0%, 8% { transform: translateX(-88%); } 46%, 60% { transform: translateX(-6%); } 100% { transform: translateX(-88%); } }
 .s-ba__wire { position: absolute; inset: 0; padding: 14px; display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: 10px 22px 12px 18px 1fr; gap: 8px 14px; }
 .s-ba__wire i { border-radius: 4px; background: repeating-linear-gradient(45deg, #d9d7ea 0 6px, #e7e5f4 6px 12px); }
 .s-ba__wire .w1 { grid-column: 1 / -1; }
@@ -299,9 +310,10 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 .s-ba__wire .w3 { grid-column: 1; width: 80%; }
 .s-ba__wire .w4 { grid-column: 1; width: 45%; border-radius: 999px; }
 .s-ba__wire .w5 { grid-column: 2; grid-row: 2 / 6; }
-.s-ba__real { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--wipe)); }
-.s-ba__handle { position: absolute; top: 0; bottom: 0; left: var(--wipe); width: 2px; translate: -1px 0; background: #fff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.8); }
-.s-ba__handle b { position: absolute; top: 50%; left: 50%; translate: -50% -50%; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; color: #4f5bd5; font: 800 12px/1 var(--body); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35); }
+.s-ba__real { position: absolute; inset: 0; overflow: hidden; }
+.s-ba__handle { position: absolute; inset: 0; pointer-events: none; }
+.s-ba__handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: #fff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.8); }
+.s-ba__handle b { position: absolute; top: 50%; left: 0; translate: -50% -50%; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; color: #4f5bd5; font: 800 12px/1 var(--body); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35); }
 .s-ba__tag { position: absolute; top: 10px; padding: 4px 8px; border-radius: 999px; background: rgba(10, 8, 32, 0.7); color: #fff; font: 600 10.5px/1 var(--body); }
 .s-ba__tag--l { left: 10px; } .s-ba__tag--r { right: 10px; }
 .s-approve-btn { position: relative; display: grid; align-self: flex-start; padding: 11px 16px; border-radius: 999px; background: #fff; color: #10133a; font: 700 13px/1 var(--body); overflow: hidden; animation: s-press 8s ease infinite; animation-delay: 0.6s; }
@@ -466,7 +478,7 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
   .s-chat0, .s-chat1, .s-chat2, .s-toast, .s-note { opacity: 1; translate: none; scale: none; }
   .s-chat3, .s-approve-btn em { opacity: 0; }
   .s-type--1 { width: 12ch; } .s-type--2 { width: 16ch; }
-  .s-ba { --wipe: 50%; }
+  .s-ba__real, .s-ba__handle { transform: translateX(50%); } .s-ba__real > * { transform: translateX(-50%); }
 }
 
 /* ---------- "What's under the card?" header, laid out like every other section ---------- */
@@ -551,71 +563,42 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 @keyframes s-badge-in { 0%, 40% { opacity: 0; scale: 0.6; } 46%, 100% { opacity: 1; scale: 1; } }
 @media (prefers-reduced-motion: reduce) { .s-search__q { width: 12ch; } .s-search__res { transform: none !important; } .s-search__badge { opacity: 1; } }
 
-/* ---------- "Built to bring in customers": pinned scroll story with 3D coverflow cards ---------- */
-@property --tint { syntax: "<color>"; inherits: true; initial-value: #fa7e1e; }
-.s-flow { position: relative; }
-.s-flow__stage {
-  --cw: clamp(300px, 34vw, 470px); --ch: clamp(420px, calc(100svh - 290px), 540px);
-  position: sticky; top: 0; height: 100vh; height: 100svh; padding-top: 70px; /* pinned to the very top (under the nav) so its scroll range matches the CSS scroll timeline exactly */
-  display: flex; flex-direction: column; justify-content: center; gap: clamp(18px, 3vh, 32px); overflow: hidden;
-  transition: --tint 0.8s ease;
+/* ---------- "Built to bring in customers": stacking cards ----------
+   Each card sticks near the top and the next one slides up over it, like a deck being dealt.
+   The sliding is the browser's own sticky scrolling, so there is no per-frame work at all (smooth on iPhone).
+   CardStack.tsx only adds .is-under to a covered card: it eases back (a one-off transition) and pauses its scene. */
+.s-stack { padding-block: clamp(56px, 8vw, 110px); }
+.s-stack__head { text-align: center; }
+.s-stack__head .kicker { justify-content: center; }
+.s-stack__list { --top: 96px; --step: 14px; display: flex; flex-direction: column; gap: 28px; width: min(1080px, 100%); margin: clamp(28px, 4vw, 48px) auto 0; padding-bottom: 6vh; counter-reset: card; }
+.s-stack .s-card {
+  position: sticky; top: calc(var(--top) + var(--i, 0) * var(--step)); height: 420px; min-height: 0;
+  display: grid; grid-template-columns: 1fr 340px; grid-template-rows: 1fr auto auto 1fr; column-gap: clamp(28px, 5vw, 64px); padding: 0 clamp(28px, 4vw, 52px);
+  transform-origin: 50% 0; will-change: transform; transition: transform 0.6s var(--s-ease, ease);
 }
-/* the background slowly takes the colour of the card in focus */
-.s-flow__stage::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(60% 55% at 50% 62%, color-mix(in srgb, var(--tint) 22%, transparent), transparent 70%); }
-.s-flow__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 14px 30px; }
-.s-flow__meta { display: grid; justify-items: end; gap: 8px; min-width: 180px; }
-.s-flow__count { font: 800 34px/1 var(--display); letter-spacing: -0.04em; background: var(--grad-x); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.s-flow__count small { font-size: 16px; color: var(--muted); -webkit-text-fill-color: var(--muted); }
-.s-flow__bar { position: relative; width: 180px; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
-.s-flow__bar i { position: absolute; inset: 0; background: var(--grad-x); transform-origin: left; transform: scaleX(calc(0.06 + var(--p, 0) * 0.94)); }
-.s-flow__hint { font: 600 11px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); opacity: calc(1 - var(--p, 0) * 12); animation: s-nudge 1.6s ease-in-out infinite; }
-@keyframes s-nudge { 50% { translate: 6px 0; } }
+.s-stack .s-card:nth-child(2) { --i: 1; } .s-stack .s-card:nth-child(3) { --i: 2; } .s-stack .s-card:nth-child(4) { --i: 3; }
+.s-stack .s-card:nth-child(5) { --i: 4; } .s-stack .s-card:nth-child(6) { --i: 5; }
+.s-stack .s-card.is-under { transform: scale(0.95); }
+.s-stack .s-card h3 { grid-row: 2; font-size: clamp(26px, 3vw, 40px); }
+.s-stack .s-card p { grid-row: 3; font-size: clamp(14.5px, 1.3vw, 17px); }
+.s-stack .s-card .s-art { grid-column: 2; grid-row: 1 / -1; height: auto; margin: 0; padding-top: 32px; }
+.s-stack .s-card h3::before { counter-increment: card; content: counter(card, decimal-leading-zero); display: block; margin-bottom: 12px; font: 700 12px/1 var(--mono); letter-spacing: 0.1em; opacity: 0.6; }
+/* no live frosted-glass blur inside the moving cards (solid fills look the same and cost nothing while scrolling) */
+.s-stack .s-card * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.s-stack .s-bubble--in, .s-stack .s-form, .s-stack .s-search { background: rgba(255, 255, 255, 0.94); }
+.s-stack .s-chip { background: rgba(40, 20, 70, 0.72); }
+.s-stack .s-note { background: rgba(255, 255, 255, 0.12); }
+/* only the card in front plays its looping scene; the others hold still (less work while scrolling) */
+.s-stack .s-card:not(.is-on) *, .s-stack .s-card:not(.is-on) *::before, .s-stack .s-card:not(.is-on) *::after { animation-play-state: paused !important; }
 
-.s-flow__track { display: flex; gap: clamp(16px, 2.4vw, 32px); padding-inline: calc(50% - var(--cw) / 2); will-change: transform; counter-reset: card; }
-.s-flow .s-card {
-  flex: 0 0 var(--cw); height: var(--ch); min-height: 0;
-  transition: box-shadow 0.5s ease;
+@media (max-width: 680px) {
+  .s-stack__list { --top: 82px; --step: 10px; gap: 20px; }
+  .s-stack .s-card { display: flex; height: min(500px, calc(100svh - 150px)); padding: 22px 20px 0; }
+  .s-stack .s-card h3 { font-size: 24px; }
+  .s-stack .s-card p { font-size: 14.5px; }
+  .s-stack .s-card .s-art { width: min(100%, 360px); height: 240px; margin: auto auto 0; padding-top: 20px; }
 }
-/* the in-focus glow is a pre-drawn layer that only fades (opacity is cheap; animating box-shadow repaints every frame) */
-.s-flow .s-card { will-change: transform, opacity; box-shadow: 0 30px 60px -40px rgba(60, 20, 40, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.35); transition: none; }
-.s-flow .s-card__bg::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45), inset 0 -40px 80px -40px color-mix(in srgb, var(--c1) 60%, transparent); opacity: 0; transition: opacity 0.5s ease; }
-.s-flow .s-card.is-on .s-card__bg::after { opacity: 1; }
-/* only the card in focus keeps its colour drifting; the others hold still */
-.s-flow .s-card:not(.is-on) .s-card__bg::before { animation-play-state: paused; }
-/* no live frosted-glass blur inside the moving cards (solid fills look the same and cost nothing) */
-.s-flow .s-card * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
-.s-flow .s-bubble--in, .s-flow .s-form, .s-flow .s-search { background: rgba(255, 255, 255, 0.94); }
-.s-flow .s-chip { background: rgba(40, 20, 70, 0.72); }
-.s-flow .s-note { background: rgba(255, 255, 255, 0.12); }
-/* the scene inside drifts a little against the card's movement (depth) */
-.s-flow .s-card .s-art { will-change: transform; } /* moved by CardFlow.tsx */
-/* step number above each title */
-.s-flow .s-card h3::before { counter-increment: card; content: counter(card, decimal-leading-zero); display: block; margin-bottom: 10px; font: 700 12px/1 var(--mono); letter-spacing: 0.1em; opacity: 0.6; }
-.s-flow .s-card--f .s-art { margin-top: auto; }
-
-@media (max-width: 700px) {
-  .s-flow__stage { --cw: 82vw; --ch: clamp(400px, calc(100svh - 250px), 520px); gap: 16px; }
-  .s-flow__meta { justify-items: start; min-width: 0; grid-auto-flow: column; align-items: center; gap: 12px; }
-  .s-flow__count { font-size: 24px; }
-  .s-flow__bar { width: 90px; }
-  .s-flow .s-card { padding: 22px 20px 0; }
-  .s-flow .s-art { height: 240px; }
-}
-/* short laptop screens: keep the whole card on screen */
-@media (max-height: 760px) and (min-width: 701px) { .s-flow .s-art { height: 230px; } }
-
-/* reduced motion: no pinning, just a row you can swipe */
-@media (prefers-reduced-motion: reduce) {
-  .s-flow { height: auto !important; }
-  .s-flow__stage { position: static; height: auto; padding-block: 40px; }
-  .s-flow__track { overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: 20px; transform: none !important; }
-  .s-flow .s-card { transform: none; opacity: 1; scroll-snap-align: center; }
-  .s-flow__meta { display: none; }
-}
-
-/* performance: cards far from focus pause their looping scenes */
-.s-flow .s-card.is-far *, .s-flow .s-card.is-far .s-card__bg::before { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .s-stack .s-card { transition: none; } .s-stack .s-card.is-under { transform: none; } }
 
 /* pages that already end with their own "Ready when you are" call to action (e.g. /why-us) skip the footer's one */
 main:has(.final) + .s-foot { padding-top: 0; border-top: 0; }
@@ -712,14 +695,3 @@ main:has(.final) + .s-foot .s-foot__panel { margin-top: 0; }
   .pv-get { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--surface) 92%, transparent); }
 }
 
-/* CSS scroll-driven version of the card story (CardFlow adds .s-flow--css when supported).
-   Runs on the browser's scrolling thread: no lag behind the finger on iPhone. Keyframes per card come from CardFlow.tsx. */
-.s-flow { view-timeline: --cf block; view-timeline-inset: 0px; } /* 0, not auto: auto would apply html scroll-padding-top and shift the timing */
-.s-flow--css .s-flow__track { animation: cf-track linear both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
-.s-flow--css .s-card, .s-flow--css .s-card .s-art { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
-.s-flow--css .s-flow__bar i { transform: scaleX(0.06); animation: cf-bar linear both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
-.s-flow--css .s-flow__hint { opacity: 1; animation: s-nudge 1.6s ease-in-out infinite, cf-hint linear both; animation-timeline: auto, --cf; animation-range: normal, contain 0% contain 100%; }
-@keyframes cf-track { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(var(--range, 0px) * -1), 0, 0); } }
-@keyframes cf-bar { from { transform: scaleX(0.06); } to { transform: scaleX(1); } }
-@keyframes cf-hint { 0% { opacity: 1; } 8%, 100% { opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .s-flow--css .s-flow__track, .s-flow--css .s-card, .s-flow--css .s-card .s-art { animation: none !important; } }

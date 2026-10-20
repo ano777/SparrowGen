@@ -207,7 +207,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
 .scratch { position: relative; border-radius: var(--r-l); overflow: hidden; background: var(--surface); -webkit-user-select: none; user-select: none; }
 
-/* the ticket: a stacked, tilting, notched scratch card */
+/* the ticket: a stacked, tilting scratch card. The cover is an orange glitter ticket (components/ticket-cover.ts);
+   ScratchServices sets a mask on .scratch that cuts the two notches where the perforation meets the edges. */
 .ticket-stage { position: relative; max-width: 980px; margin-top: 40px; perspective: 1200px; }
 .ticket-stage::before, .ticket-stage::after { /* two tickets underneath, for a stack */
   content: ""; position: absolute; inset: 10px 14px -10px; border-radius: var(--r-l); background: var(--surface); border: 1px solid var(--line); transform: rotate(-2.2deg); z-index: -1; transition: transform 0.5s ease, opacity 0.5s ease;
@@ -219,29 +220,21 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ticket {
   --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 50%;
   position: relative; border-radius: var(--r-l);
-  transform: rotateX(var(--rx)) rotateY(var(--ry)); transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--ts, 1)); transform-style: preserve-3d;
   transition: transform 0.18s ease-out, box-shadow 0.3s ease;
-  box-shadow: 0 40px 80px -30px rgba(214, 41, 118, 0.55), 0 18px 36px -18px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: 0 40px 80px -30px rgba(239, 103, 28, 0.5), 0 18px 36px -18px rgba(90, 53, 32, 0.45);
   animation: ticketFloat 5s ease-in-out infinite;
 }
 .ticket[data-scratching="true"], .ticket[data-done="true"] { animation: none; transform: none; }
 @keyframes ticketFloat { 50% { translate: 0 -6px; } }
-.ticket::before, .ticket::after { /* side notches, like a real ticket */
-  content: ""; position: absolute; top: 50%; width: 30px; height: 30px; margin-top: -15px; border-radius: 50%; background: var(--bg); z-index: 6; pointer-events: none;
-}
-.ticket::before { left: -15px; }
-.ticket::after { right: -15px; }
-.ticket[data-done="true"]::before, .ticket[data-done="true"]::after { display: none; }
+.ticket-stage:hover .ticket:not([data-scratching="true"], [data-done="true"]) { --ts: 1.02; }
+.ticket[data-done="true"] .scratch { -webkit-mask: none !important; mask: none !important; }
 .scratch__canvas { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23fff3c4'/%3E%3Cstop offset='1' stop-color='%23e8a10c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='17' cy='17' r='14' fill='url(%23g)' stroke='%23a86b00' stroke-width='2'/%3E%3Ccircle cx='17' cy='17' r='9' fill='none' stroke='%23a86b00' stroke-width='1.5' opacity='.6'/%3E%3C/svg%3E") 17 17, crosshair; }
-.scratch__glare { position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: inherit; background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.35), transparent 45%); mix-blend-mode: soft-light; opacity: 0; transition: opacity 0.3s; }
+.scratch__glare { position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: inherit; background: radial-gradient(38% 55% at var(--gx) var(--gy), rgba(255, 255, 255, 0.16), transparent 70%); opacity: 0; transition: opacity 0.42s ease-out; }
 .ticket-stage:hover .scratch__glare { opacity: 1; }
 .ticket[data-done="true"] .scratch__glare { display: none; }
-.scratch__coin { position: absolute; left: 0; top: 0; width: 36px; height: 36px; border-radius: 50%; z-index: 3; pointer-events: none; opacity: 0; transition: opacity 0.3s;
-  background: radial-gradient(circle at 35% 35%, #fff8d9, #f5c33b 55%, #c98700); box-shadow: inset 0 0 0 2px rgba(168, 107, 0, 0.7), inset 0 0 0 7px rgba(255, 255, 255, 0.25), 0 6px 14px rgba(0, 0, 0, 0.4); }
-.scratch__coin[data-on="true"] { opacity: 1; }
 .scratch__skip { margin: 26px 0 0; font-size: var(--step--1); color: var(--muted); }
 .scratch__skip button { border: 0; background: none; padding: 0; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-@media (max-width: 600px) { .ticket::before, .ticket::after { width: 22px; height: 22px; margin-top: -11px; } .ticket::before { left: -11px; } .ticket::after { right: -11px; } }
 .scratch__grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .svc { padding: clamp(20px, 2.4vw, 30px); min-height: 230px; display: flex; flex-direction: column; color: #fff; }
 .svc--sun { background: linear-gradient(160deg, #feda75, #fa7e1e); color: #1a1023; }
@@ -252,7 +245,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .svc ul { list-style: none; padding: 0; margin: auto 0 0; display: grid; gap: 8px; font-weight: 600; }
 .svc li { display: flex; gap: 10px; align-items: center; }
 .svc li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
-.scratch__canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; /* vertical swipes scroll, sideways swipes scratch */ cursor: crosshair; transition: opacity 0.6s ease; }
+.scratch__canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; /* a finger scratches in any direction */ -webkit-touch-callout: none; cursor: crosshair; transition: opacity 0.6s ease; }
 .scratch__canvas[data-done="true"] { opacity: 0; pointer-events: none; }
 .scratch__progress { position: absolute; right: 14px; bottom: 14px; z-index: 3; background: rgba(20, 12, 28, 0.85); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; pointer-events: none; transition: opacity 0.4s; }
 .scratch__progress[data-done="true"] { opacity: 0; }
