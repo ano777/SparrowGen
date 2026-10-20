@@ -10,6 +10,9 @@ const NIGHT = ["#120a1a", "#6a2b10", "#6b1640", "#45206a", "#232d78", "#3d2a0c"]
 
 export function PageWave() {
   const [night, setNight] = useState(false);
+  // Phones and tablets get the same waves as a still picture: no constant redraw on a small GPU, smoother scrolling, less battery.
+  const [touch, setTouch] = useState(false);
+  useEffect(() => { setTouch(matchMedia("(pointer: coarse)").matches); }, []);
   useEffect(() => {
     const html = document.documentElement;
     const read = () => setNight(html.dataset.theme === "night");
@@ -18,5 +21,5 @@ export function PageWave() {
     mo.observe(html, { attributes: true, attributeFilter: ["data-theme"] });
     return () => mo.disconnect();
   }, []);
-  return <GradientWave key={night ? "night" : "cream"} colors={night ? NIGHT : CREAM} className="s-page-wave" resolution={0.34} fps={24} pauseOnScroll />;
+  return <GradientWave key={`${night ? "night" : "cream"}-${touch}`} colors={night ? NIGHT : CREAM} className="s-page-wave" resolution={touch ? 0.5 : 0.34} fps={24} pauseOnScroll still={touch} />;
 }

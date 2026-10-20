@@ -205,7 +205,7 @@ html[data-js] [data-reveal][data-shown="true"]:not(.ps [data-reveal]) { opacity:
   --c1: #ffb36b; --c2: #ff7aa8; --c3: #ffd9a0; --base: #fff0e2; --fg: #1d1208; --mut: rgba(29, 18, 8, 0.7);
   position: relative; isolation: isolate; display: flex; flex-direction: column; min-height: 450px; padding: 28px 28px 0; overflow: hidden;
   border-radius: 24px; color: var(--fg);
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), var(--base);
+  background: url("/grain.png") 0 0 / 128px 128px, var(--base);
   box-shadow: 0 30px 60px -40px rgba(60, 20, 40, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 /* the drifting aurora lives in its own hard-clipped layer, so it can never spill over the neighbouring cards */
@@ -262,9 +262,9 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 /* B — phone floating in a purple aurora, with chips */
 .s-art--phone { display: grid; justify-items: center; align-items: end; }
 .s-phone { position: relative; width: 200px; height: 250px; overflow: hidden; border: 8px solid #0b0812; border-bottom: 0; border-radius: 34px 34px 0 0; background: #0b0812; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 -20px 60px -20px rgba(255, 61, 139, 0.6); animation: s-bob 6s ease-in-out infinite; }
-.s-phone img { object-fit: cover; object-position: 0% 0; animation: s-pan 12s ease-in-out infinite alternate; }
+.s-phone img { object-fit: cover; object-position: 0 0; width: 260% !important; max-width: none; left: 0 !important; animation: s-pan 12s ease-in-out infinite alternate; will-change: transform; } /* pans with transform (no repaint) */
 .s-phone__notch { position: absolute; top: 6px; left: 50%; width: 56px; height: 14px; translate: -50% 0; border-radius: 999px; background: #0b0812; }
-@keyframes s-pan { to { object-position: 100% 0; } }
+@keyframes s-pan { to { transform: translateX(-61.5%); } }
 @keyframes s-bob { 50% { translate: 0 -8px; } }
 .s-chip { position: absolute; padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; font: 600 12.5px/1 var(--body); white-space: nowrap; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: s-bob 5s ease-in-out infinite; }
 .s-chip--1 { left: 6%; top: 34%; animation-delay: -1s; }
@@ -556,7 +556,7 @@ html[data-js] .s-approach:not([data-play="true"]) .s-card *::after { animation-p
 .s-flow { position: relative; }
 .s-flow__stage {
   --cw: clamp(300px, 34vw, 470px); --ch: clamp(420px, calc(100svh - 290px), 540px);
-  position: sticky; top: 70px; height: calc(100vh - 70px); height: calc(100svh - 70px);
+  position: sticky; top: 0; height: 100vh; height: 100svh; padding-top: 70px; /* pinned to the very top (under the nav) so its scroll range matches the CSS scroll timeline exactly */
   display: flex; flex-direction: column; justify-content: center; gap: clamp(18px, 3vh, 32px); overflow: hidden;
   transition: --tint 0.8s ease;
 }
@@ -643,7 +643,7 @@ main:has(.final) + .s-foot .s-foot__panel { margin-top: 0; }
 .pv-row { height: clamp(290px, 32vw, 470px); margin-top: clamp(14px, 2vw, 28px); }
 /* a soft pink "floor" glow under the row, so it sits in the page instead of on top of it */
 .pv-row::before { content: ""; position: absolute; left: 10%; right: 10%; bottom: 2%; height: 30%; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(214, 41, 118, 0.22), rgba(250, 126, 30, 0.1) 60%, transparent); filter: blur(10px); }
+  background: radial-gradient(closest-side, rgba(214, 41, 118, 0.2), rgba(250, 126, 30, 0.09) 60%, transparent); }
 
 .pv-live { position: relative; }
 
@@ -691,13 +691,15 @@ main:has(.final) + .s-foot .s-foot__panel { margin-top: 0; }
   background: var(--grad-x); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   opacity: 0; animation: pv-spot var(--dur) linear var(--delay) infinite; }
 @keyframes pv-spot { 0%, 41% { opacity: 0; } 48%, 52% { opacity: 1; } 59%, 100% { opacity: 0; } }
-.pv-rcard__sheen { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%) no-repeat;
-  background-size: 250% 100%; background-position: 150% 0; animation: pv-sheen var(--dur) linear var(--delay) infinite; mix-blend-mode: soft-light; }
-@keyframes pv-sheen { 0%, 45% { background-position: 150% 0; } 55%, 100% { background-position: -60% 0; } }
-.pv-row .cr__tile::before { content: ""; position: absolute; inset: -6%; z-index: -1; border-radius: 12%; background: radial-gradient(closest-side, rgba(214, 41, 118, 0.45), rgba(150, 47, 191, 0.25) 60%, transparent);
-  filter: blur(14px); opacity: 0; animation: pv-spot var(--dur) linear var(--delay) infinite; transform: translateZ(-2px); }
-.cr[data-play="false"] .cr__tile *, .cr[data-play="false"] .cr__tile::before { animation-play-state: paused !important; }
-@media (prefers-reduced-motion: reduce) { .pv-rcard::after, .pv-rcard__sheen, .pv-row .cr__tile::before { animation: none !important; } }
+.pv-rcard__sheen { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+/* a light band slides across with transform only (it used to animate background-position through a blend mode,
+   which repainted every slice of every card each frame) */
+.pv-rcard__sheen::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%; background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22) 50%, transparent);
+  transform: translateX(-110%); animation: pv-sheen var(--dur) linear var(--delay) infinite; will-change: transform; }
+@keyframes pv-sheen { 0%, 45% { transform: translateX(-110%); } 55%, 100% { transform: translateX(260%); } }
+.pv-row .cr__tile::before { content: ""; position: absolute; inset: -6%; z-index: -1; border-radius: 12%; background: radial-gradient(closest-side, rgba(214, 41, 118, 0.38), rgba(150, 47, 191, 0.2) 55%, transparent 80%); opacity: 0; animation: pv-spot var(--dur) linear var(--delay) infinite; transform: translateZ(-2px); }
+.cr[data-play="false"] .cr__tile *, .cr[data-play="false"] .cr__tile *::before, .cr[data-play="false"] .cr__tile::before { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .pv-rcard::after, .pv-rcard__sheen::before, .pv-row .cr__tile::before { animation: none !important; } }
 
 @media (max-width: 700px) {
   .pv-row { height: clamp(300px, 88vw, 360px); }
@@ -709,3 +711,15 @@ main:has(.final) + .s-foot .s-foot__panel { margin-top: 0; }
   .s-foot__panel { -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); background: color-mix(in srgb, var(--surface) 80%, transparent); }
   .pv-get { -webkit-backdrop-filter: none; backdrop-filter: none; background: color-mix(in srgb, var(--surface) 92%, transparent); }
 }
+
+/* CSS scroll-driven version of the card story (CardFlow adds .s-flow--css when supported).
+   Runs on the browser's scrolling thread: no lag behind the finger on iPhone. Keyframes per card come from CardFlow.tsx. */
+.s-flow { view-timeline: --cf block; view-timeline-inset: 0px; } /* 0, not auto: auto would apply html scroll-padding-top and shift the timing */
+.s-flow--css .s-flow__track { animation: cf-track linear both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
+.s-flow--css .s-card, .s-flow--css .s-card .s-art { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
+.s-flow--css .s-flow__bar i { transform: scaleX(0.06); animation: cf-bar linear both; animation-timeline: --cf; animation-range: contain 0% contain 100%; }
+.s-flow--css .s-flow__hint { opacity: 1; animation: s-nudge 1.6s ease-in-out infinite, cf-hint linear both; animation-timeline: auto, --cf; animation-range: normal, contain 0% contain 100%; }
+@keyframes cf-track { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(calc(var(--range, 0px) * -1), 0, 0); } }
+@keyframes cf-bar { from { transform: scaleX(0.06); } to { transform: scaleX(1); } }
+@keyframes cf-hint { 0% { opacity: 1; } 8%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .s-flow--css .s-flow__track, .s-flow--css .s-card, .s-flow--css .s-card .s-art { animation: none !important; } }

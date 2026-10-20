@@ -545,6 +545,8 @@ export interface GradientWaveProps {
   fps?: number;
   /** Hold the picture still while the page scrolls (smoother scrolling). @default false */
   pauseOnScroll?: boolean;
+  /** Draw one still frame and never animate (e.g. phones: same look, no GPU/battery cost). @default false */
+  still?: boolean;
   className?: string;
   shadowPower?: number;
   darkenTop?: boolean;
@@ -561,6 +563,7 @@ export function GradientWave({
   resolution = 1,
   fps = 60,
   pauseOnScroll = false,
+  still = false,
   className = "",
   shadowPower = 8,
   darkenTop = false,
@@ -590,7 +593,7 @@ export function GradientWave({
       for (const [k, v] of Object.entries(deform)) if (u.u_vertDeform.value[k]) u.u_vertDeform.value[k].value = v;
 
       const g = gradient;
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (still || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         g.still(12000);
       } else {
         // Only animate while on screen: saves battery and keeps scrolling smooth on phones.
@@ -599,10 +602,10 @@ export function GradientWave({
       }
       ro = new ResizeObserver(() => g.resize());
       ro.observe(box);
-      if (pauseOnScroll) window.addEventListener("scroll", g.onScroll, { passive: true });
+      if (pauseOnScroll && !still) window.addEventListener("scroll", g.onScroll, { passive: true });
       box.dataset.ready = "true";
     } catch (error) {
-      console.error("Gradient background unavailable:", error); // the CSS fallback background stays visible
+      console.warn("Gradient background unavailable:", error); // the plain page background stays visible
     }
 
     return () => {
@@ -613,7 +616,7 @@ export function GradientWave({
       gradient?.minigl.gl.getExtension("WEBGL_lose_context")?.loseContext();
       canvas.remove();
     };
-  }, [colors, resolution, fps, pauseOnScroll, shadowPower, darkenTop, noiseSpeed, noiseFrequency, deform]);
+  }, [colors, resolution, fps, pauseOnScroll, still, shadowPower, darkenTop, noiseSpeed, noiseFrequency, deform]);
 
   return <div ref={containerRef} className={`ui-gradient-wave ${className}`} aria-hidden="true" />;
 }

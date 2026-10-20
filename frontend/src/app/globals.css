@@ -131,12 +131,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .btn:active { transform: translateY(0); }
 .btn--grad { border: 0; color: #fff; background: var(--grad-x); background-size: 160% 100%; background-position: 0 0; transition: background-position 0.4s ease, transform 0.15s ease, box-shadow 0.2s ease; }
 .btn--grad:hover { background-position: 100% 0; box-shadow: 0 14px 34px -12px rgba(214, 41, 118, 0.6); }
-.btn--grad { position: relative; overflow: hidden; animation: btn-glow 3.2s ease-in-out infinite; }
-.btn--grad::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent); transform: skewX(-20deg); pointer-events: none; }
+/* Glow + shine use transform/opacity only. (They used to animate box-shadow and `left`, which made Safari/iPhone
+   repaint every gradient button on the page every frame, even off screen.) */
+.btn--grad { position: relative; overflow: hidden; box-shadow: 0 8px 22px -10px rgba(214, 41, 118, 0.5); }
+.btn--grad::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent); transform: translateX(0) skewX(-20deg); pointer-events: none; will-change: transform; }
 .btn--grad::after { animation: btn-shine 5s ease-in-out infinite; }
 .btn--grad:hover::after { animation: btn-shine 0.8s ease; }
-@keyframes btn-glow { 0%, 100% { box-shadow: 0 6px 18px -10px rgba(214, 41, 118, 0.35); } 50% { box-shadow: 0 10px 28px -8px rgba(214, 41, 118, 0.6); } }
-@keyframes btn-shine { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+@keyframes btn-shine { 0%, 70% { transform: translateX(0) skewX(-20deg); } 100% { transform: translateX(475%) skewX(-20deg); } }
 @media (prefers-reduced-motion: reduce) { .btn--grad { animation: none; } .btn--grad:hover::after, .btn--grad::after { animation: none; } }
 :root[data-theme="cream"] .hero__ctas .btn:not(.btn--grad) { background: linear-gradient(var(--surface), var(--surface)) padding-box, linear-gradient(120deg, #fa7e1e 0%, #d62976 38%, #962fbf 72%, #4f5bd5 100%) border-box; color: #141414; border: 3px solid transparent; font-weight: 700; box-shadow: 0 10px 24px -10px rgba(150, 47, 191, 0.55); }
 .btn--dark { border: 0; background: var(--ink); color: var(--bg); }
@@ -669,11 +670,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ---------- /preview page: colourful hero, livelier form, showcase strip ---------- */
 .pv-head { position: relative; isolation: isolate; overflow-x: clip; }
 .pv-aurora { position: absolute; inset: -30% -10% -20%; z-index: -1; pointer-events: none; }
-.pv-aurora i { position: absolute; width: 38vw; max-width: 560px; aspect-ratio: 1; border-radius: 50%; filter: blur(80px); opacity: 0.34; animation: pvDrift 16s ease-in-out infinite alternate; }
-.pv-aurora i:nth-child(1) { left: 48%; top: 6%; background: #fa7e1e; }
-.pv-aurora i:nth-child(2) { right: -4%; top: 0; background: #d62976; animation-delay: -4s; }
-.pv-aurora i:nth-child(3) { left: 66%; top: 42%; background: #962fbf; animation-delay: -8s; }
-.pv-aurora i:nth-child(4) { left: 8%; top: 52%; background: #4f5bd5; opacity: 0.22; animation-delay: -12s; }
+.pv-aurora i { position: absolute; width: 38vw; max-width: 560px; aspect-ratio: 1; border-radius: 50%; opacity: 0.34; background: radial-gradient(closest-side, var(--c), transparent); /* soft edge from the gradient, not blur(): far cheaper in Safari */ animation: pvDrift 16s ease-in-out infinite alternate; }
+.pv-aurora i:nth-child(1) { --c: #fa7e1e; left: 48%; top: 6%; }
+.pv-aurora i:nth-child(2) { --c: #d62976; right: -4%; top: 0; animation-delay: -4s; }
+.pv-aurora i:nth-child(3) { --c: #962fbf; left: 66%; top: 42%; animation-delay: -8s; }
+.pv-aurora i:nth-child(4) { --c: #4f5bd5; left: 8%; top: 52%; opacity: 0.22; animation-delay: -12s; }
 @keyframes pvDrift { to { transform: translate(-8%, 10%) scale(1.15); } }
 .pv-head__in { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4%; align-items: center; }
 .pv-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
@@ -702,7 +703,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .pv-sticker { position: absolute; right: 2%; bottom: 0; z-index: 5; padding: 10px 16px; border: 2px solid transparent; border-radius: 999px; background: linear-gradient(#fff, #fff) padding-box, var(--grad-x) border-box; color: #111; font-weight: 800; font-size: 0.92rem; rotate: -6deg; box-shadow: 0 16px 30px -14px rgba(214, 41, 118, 0.7); animation: pvFloat 3.2s ease-in-out infinite; }
 
 .pv-studio { position: relative; isolation: isolate; }
-.pv-studio::before { content: ""; position: absolute; left: 50%; top: 0; z-index: -1; width: 80%; height: 70%; transform: translateX(-50%); background: radial-gradient(ellipse at center, color-mix(in srgb, #d62976 20%, transparent), transparent 70%); filter: blur(30px); pointer-events: none; }
+.pv-studio::before { content: ""; position: absolute; left: 50%; top: 0; z-index: -1; width: 80%; height: 70%; transform: translateX(-50%); background: radial-gradient(ellipse at center, color-mix(in srgb, #d62976 20%, transparent), transparent 75%); pointer-events: none; }
 .studio-form { border: 1.5px solid transparent; background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--grad) border-box; box-shadow: 0 30px 70px -36px rgba(214, 41, 118, 0.55), 0 0 0 6px color-mix(in srgb, #962fbf 8%, transparent); }
 .pv-go { position: relative; overflow: hidden; padding: 16px 30px; font-size: 1.05rem; }
 .pv-go::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%); transform: translateX(-120%); animation: pvShine 2.8s ease-in-out infinite; }

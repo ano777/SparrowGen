@@ -82,14 +82,17 @@ function useMotion(root: React.RefObject<HTMLDivElement | null>) {
     }, { root: viewport, threshold: 0.05 });
     targets.forEach((_, watch) => io.observe(watch));
 
+    // Set the scroll values only on the few elements that read them: setting them on the root would make
+    // Safari restyle the whole design on every scroll frame.
+    const linked = [...el.querySelectorAll<HTMLElement>(".ps-progress, .ps-parallax, .x-top")];
     let frame = 0;
     const onScroll = () => {
-      if (!viewport || frame) return;
+      if (!viewport || frame || !linked.length) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
         const max = viewport.scrollHeight - viewport.clientHeight;
-        el.style.setProperty("--sy", String(viewport.scrollTop));
-        el.style.setProperty("--sp", String(max > 0 ? viewport.scrollTop / max : 0));
+        const sy = String(viewport.scrollTop), sp = String(max > 0 ? viewport.scrollTop / max : 0);
+        for (const n of linked) { n.style.setProperty("--sy", sy); n.style.setProperty("--sp", sp); }
       });
     };
     viewport?.addEventListener("scroll", onScroll, { passive: true });
@@ -163,7 +166,13 @@ function Img({ src, w, alt = "", eager, className, art }: { src: string; w: numb
   const { ui, name } = useContext(Look);
   if (ui && art) return <TechArt kind={art} name={name} className={className} />;
   // eslint-disable-next-line @next/next/no-img-element
-  return <img className={`ps-img ${className ?? ""}`} src={photo(src, w)} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" draggable={false} />;
+  // Smaller copies for smaller screens (the sample sites sit in a frame, never full-page): less to download and,
+  // more importantly, less to decode, which is what made Safari on iPhone stall on the photo-heavy designs.
+  const sizes = [Math.round(w * 0.45), Math.round(w * 0.7), w];
+  return (
+    <img className={`ps-img ${className ?? ""}`} src={photo(src, w)} srcSet={sizes.map((x) => `${photo(src, x)} ${x}w`).join(", ")}
+      sizes={`(max-width: 700px) 92vw, ${Math.round(w * 0.7)}px`} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" draggable={false} />
+  );
 }
 
 // Headline with the last word highlighted (accent colour; italic in the Elegant font).
@@ -641,7 +650,6 @@ function Complete(c: Ctx) {
   const { ui, p } = useContext(Look);
   const [dark, setDark] = useState(false);
   const [joined, setJoined] = useState(false);
-  const left = useCountdown();
   const handle = name.toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 24) || "yourbusiness";
   const ago = (days: number) => new Date(Date.now() - days * 864e5).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
   const posts: { t: string; date: string; mins: number; src: string; art: ArtKind }[] = [
@@ -649,7 +657,6 @@ function Complete(c: Ctx) {
     { t: `${cat.items[1].title}: what's new this month`, date: ago(11), mins: 3, src: cat.photos.gallery[3], art: "dash" },
     { t: `${cat.features[0][0]}, and why it matters`, date: ago(24), mins: 5, src: cat.photos.gallery[4], art: "terminal" },
   ];
-  const [slide, setSlide] = useState(0);
   const [tab, setTab] = useState(0);
   const [zoom, setZoom] = useState<number | null>(null);
   const [chat, setChat] = useState(false);
@@ -665,12 +672,6 @@ function Complete(c: Ctx) {
     { q: "Can I pay online?", a: "Yes. UPI, cards and cash are all welcome." },
   ];
   const n = cat.photos.gallery.length;
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setSlide((s) => (s + 1) % 3), 4500);
-    return () => clearInterval(t);
-  }, []);
 
   useEffect(() => {
     if (zoom === null) return;
@@ -705,9 +706,7 @@ function Complete(c: Ctx) {
             <div className="x-hero__slide is-on"><Img src={cat.photos.hero[0]} w={1600} art="mesh" /></div>
             <div className="ps-hero-art" aria-hidden="true"><TechArt kind="dash" name={name} /></div>
           </>
-        ) : cat.photos.hero.map((h, i) => (
-          <div key={h} className={`x-hero__slide ${i === slide ? "is-on" : ""}`}><Img src={h} w={1600} eager={i === 0} /></div>
-        ))}
+        ) : <HeroSlides photos={cat.photos.hero} />}
         <div className="x-hero__text">
           <p className="ps__eyebrow rise">{cat.id === "other" ? name : cat.label}</p>
           <h1 className="ps__title rise" style={d(1)}><Title text={title} /></h1>
@@ -718,11 +717,6 @@ function Complete(c: Ctx) {
           </div>
         </div>
         <div className="x-open rise" style={d(4)}><i /> Open now<span>{cat.hours}</span></div>
-        {!ui && <div className="x-hero__dots">
-          {cat.photos.hero.map((h, i) => (
-            <button key={h} type="button" aria-label={`Show photo ${i + 1}`} aria-pressed={i === slide} onClick={() => setSlide(i)}><i key={i === slide ? `on-${slide}` : "off"} /></button>
-          ))}
-        </div>}
       </section>
 
       <Stats cat={cat} className="x-stats" />
@@ -731,7 +725,7 @@ function Complete(c: Ctx) {
       <section className="x-offer" data-reveal>
         <span className="x-offer__tag">This week only</span>
         <p><strong>A welcome offer for first-time customers.</strong> {cat.cta} today and we&apos;ll add a little extra.</p>
-        <span className="x-offer__time" aria-label={`Offer ends in ${left}`}>{left}</span>
+        <Countdown />
         <button type="button" className="ps__btn" onClick={jump("x-book")}>Claim offer <Arrow /></button>
       </section>
 
@@ -912,6 +906,34 @@ function Complete(c: Ctx) {
       )}
     </div>
   );
+}
+
+// The slideshow and the countdown live in their own small components, so their timers re-render only themselves
+// (re-rendering the whole sample site every second made phones stutter while scrolling).
+function HeroSlides({ photos }: { photos: string[] }) {
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setSlide((s) => (s + 1) % photos.length), 4500);
+    return () => clearInterval(t);
+  }, [photos.length]);
+  return (
+    <>
+      {photos.map((h, i) => (
+        <div key={h} className={`x-hero__slide ${i === slide ? "is-on" : ""}`}><Img src={h} w={1600} eager={i === 0} /></div>
+      ))}
+      <div className="x-hero__dots">
+        {photos.map((h, i) => (
+          <button key={h} type="button" aria-label={`Show photo ${i + 1}`} aria-pressed={i === slide} onClick={() => setSlide(i)}><i key={i === slide ? `on-${slide}` : "off"} /></button>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function Countdown() {
+  const left = useCountdown();
+  return <span className="x-offer__time" aria-label={`Offer ends in ${left}`}>{left}</span>;
 }
 
 // Time left until the end of this week (Sunday midnight), ticking every second.
