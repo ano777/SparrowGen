@@ -237,9 +237,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .scratch__skip button { border: 0; background: none; padding: 0; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .scratch__grid { display: grid; grid-template-columns: repeat(3, 1fr); }
 .svc { padding: clamp(20px, 2.4vw, 30px); min-height: 230px; display: flex; flex-direction: column; color: #fff; }
-.svc--sun { background: linear-gradient(160deg, #feda75, #fa7e1e); color: #1a1023; }
-.svc--bloom { background: linear-gradient(160deg, #fa7e1e -20%, #d62976 60%); }
-.svc--dusk { background: linear-gradient(160deg, #962fbf, #4f5bd5); }
+/* each service row: soft blurred colour glows over a base colour, with fine grain (same look as the "Why it works" cards) */
+.svc { position: relative; isolation: isolate; overflow: hidden; background: url("/grain.png") 0 0 / 128px 128px, var(--base); }
+.svc::before {
+  content: ""; position: absolute; inset: -25%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(28% 60% at 26% 24%, var(--c1), transparent 75%),
+    radial-gradient(26% 60% at 80% 26%, var(--c2), transparent 75%),
+    radial-gradient(34% 60% at 56% 80%, var(--c3), transparent 75%);
+  animation: svc-drift 18s ease-in-out infinite alternate;
+}
+@keyframes svc-drift { 50% { transform: translate(4%, -3%) scale(1.06); } 100% { transform: translate(-4%, 3%) scale(1.02); } }
+.svc--sun { --base: #f6e4cc; --c1: #ffa055; --c2: #ff8ab0; --c3: #ffe2a8; color: #1a1023; }
+.svc--bloom { --base: #d62976; --c1: #fa7e1e; --c2: #ff7aa8; --c3: #962fbf; }
+.svc--dusk { --base: #5a3fc4; --c1: #962fbf; --c2: #4f8bff; --c3: #7b3dff; }
+/* the glows only drift once the card is revealed */
+.ticket:not([data-done="true"]) .svc::before { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .svc::before { animation: none; } }
 .svc__title { font-size: var(--step-2); }
 .svc__line { margin: 8px 0 18px; opacity: 0.85; }
 .svc ul { list-style: none; padding: 0; margin: auto 0 0; display: grid; gap: 8px; font-weight: 600; }
