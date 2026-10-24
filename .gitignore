@@ -6,6 +6,7 @@ dev-admin-login.txt
 *.db
 .claude/*
 !.claude/skills/
+!.claude/settings.json
 .DS_Store
 
 # dependencies and build output
