@@ -4,7 +4,8 @@
 !.env.example
 dev-admin-login.txt
 *.db
-.claude/
+.claude/*
+!.claude/skills/
 .DS_Store
 
 # dependencies and build output
