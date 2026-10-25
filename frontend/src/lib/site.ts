@@ -114,16 +114,17 @@ export type Project = {
   url?: string; // live site. When set, the card opens it in a new tab
   image?: string; // real screenshot in /public (e.g. "/work/spotturf-cover.webp"). Replaces the drawn mock
   nav?: [string, string, string]; // words in the mock's nav bar (defaults to Shop / About / Contact)
-  concept?: boolean; // a sample site we made ourselves, not client work. Shown with a "Concept" label (required: misleading-ads rules)
+  concept?: boolean; // a sample site we made ourselves, not client work. Shown with a "Demo" label (required: misleading-ads rules)
   category: string; // filter chip on /work
 };
 
-// Our work: client sites first, then concept sites. Keep this list short.
-// Real client projects must NOT have concept: true; concept ones must keep it.
+// Our work: client sites first, then demo sites. Keep this list short.
+// Real client projects must NOT have concept: true; demo ones must keep it.
 export const projects: Project[] = [
   { slug: "dk-banquet", category: "Banquet", name: "D. K. Banquet", kind: "Banquet hall website", result: "Book-your-date enquiries", palette: ["#6e1424", "#fbf7f0", "#c9a86a"], headline: "Where every celebration becomes a memory.", url: "https://client-demo--dk-banquet-kolkata.netlify.app/", image: "/work/dk-banquet-hero.jpg", nav: ["Rooms", "Gallery", "Contact"] },
+  { slug: "tolly-cafe", category: "Café", name: "Tolly Café", kind: "Cafe & restaurant website", result: "Table bookings on WhatsApp", palette: ["#12302e", "#fbfbf6", "#c7302a"], headline: "A home-style café & restaurant in Tollygunge.", url: "https://tolly-cafe-restaurant.netlify.app/", image: "/work/tolly-cafe-cover.webp", nav: ["Our story", "Menu", "Visit"] },
+  { slug: "kerbside-cafe", category: "Café", name: "The Kerbside Café", kind: "Cafe website", result: "Directions and calls in one tap", palette: ["#1e2a1a", "#f1e7d3", "#e8920f"], headline: "Craft coffee and Kolkata Bhetki in Golf Gardens.", url: "https://kerbside-cafe.netlify.app/", image: "/work/kerbside-cafe-cover.webp", nav: ["Menu", "Visit", "Call"] },
   { slug: "spotturf", concept: true, category: "Sports", name: "SpotTurf Kolkata", kind: "Turf booking website", result: "Live slot booking", palette: ["#0f3d27", "#f2efe4", "#f6c21c"], headline: "Play till midnight in Kasba.", url: "https://spot-turfs.netlify.app/", image: "/work/spotturf-cover.webp", nav: ["Book", "Rates", "Photos"] },
-  { slug: "bhor", concept: true, category: "Café", name: "Bhor Coffee & Bakehouse", kind: "Cafe website", result: "Order ahead for pickup", palette: ["#1d3b36", "#f7f0e6", "#e9a23b"], headline: "Coffee from the hills. Baked at dawn, gone by noon.", url: "https://bhor-coffee.netlify.app/", image: "/work/bhor-coffee-cover.jpg", nav: ["Order", "Coffee", "Visit"] },
 ];
 
 export const steps = [

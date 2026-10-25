@@ -4,7 +4,7 @@ import { pageMeta } from "@/lib/seo";
 import { Acc } from "@/components/Roll";
 import { WorksGrid } from "@/components/studio/WorksGrid";
 
-export const metadata: Metadata = pageMeta("Our work", "Website concepts by " + brand.name + " for cafés, turfs and local businesses: booking, ordering and online stores built to bring in customers.", "/work");
+export const metadata: Metadata = pageMeta("Our work", "Website demos by " + brand.name + " for cafés, turfs and local businesses: booking, ordering and online stores built to bring in customers.", "/work");
 
 export default function WorkPage() {
   return (

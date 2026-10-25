@@ -749,7 +749,7 @@
         "show me your work",
         "examples of your work"
       ],
-      "answer": "You can browse our concept websites on the Work page. They show the kind of site we build, and client projects are added as they go live.",
+      "answer": "You can browse our demo websites on the Work page. They show the kind of site we build, and client projects are added as they go live.",
       "buttons": [
         {
           "label": "See our work",
@@ -1255,7 +1255,7 @@
         "legitimate",
         "proof"
       ],
-      "answer": "Our Work page shows concept websites we built to show our style, and we add client projects and testimonials as they go live. You can also see a free preview of your own site before you commit.",
+      "answer": "Our Work page shows demo websites we built to show our style, and we add client projects and testimonials as they go live. You can also see a free preview of your own site before you commit.",
       "buttons": [
         {
           "label": "See our work",

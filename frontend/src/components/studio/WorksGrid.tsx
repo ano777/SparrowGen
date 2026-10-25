@@ -17,18 +17,18 @@ export function WorksGrid() {
       <div className="s-chips" role="group" aria-label="Filter by business type">
         {cats.map((c) => <button key={c} type="button" aria-pressed={c === cat} onClick={() => setCat(c)}>{c}</button>)}
       </div>
-      <p className="s-works__note">Client sites and concept sites we designed and built ourselves. Concept sites are marked.</p>
+      <p className="s-works__note">Client sites and demo sites we designed and built ourselves. Demo sites are marked.</p>
       </div>
       <div className="s-works__grid">
         {shown.map((p) => (
           <article key={p.slug} className="s-wcard">
-            <a href={p.url} target="_blank" rel="noopener noreferrer" className="s-wcard__img" aria-label={`Open ${p.name}${p.concept ? " (concept)" : ""} in a new tab`}>
+            <a href={p.url} target="_blank" rel="noopener noreferrer" className="s-wcard__img" aria-label={`Open ${p.name}${p.concept ? " (demo)" : ""} in a new tab`}>
               <Image src={p.image!} alt={`${p.name} website homepage`} fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" />
               <span className="s-wcard__open" aria-hidden="true">Open live site ↗</span>
             </a>
             <div className="s-wcard__foot">
               <div>
-                <h2>{p.name} {p.concept && <span className="s-tag">Concept</span>}</h2>
+                <h2>{p.name} {p.concept && <span className="s-tag">Demo</span>}</h2>
                 <p>{p.kind}</p>
               </div>
               <a href={p.url} target="_blank" rel="noopener noreferrer" className="s-btn s-btn--soft s-btn--xs"><Roll>Visit site</Roll></a>

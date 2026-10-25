@@ -17,12 +17,12 @@ export function MiniSite({ k }: { k: SiteKind }) {
   );
 }
 
-// Real screenshot of one of our concept sites.
+// Real screenshot of one of our demo sites.
 export function Shot({ p, sizes = "400px", priority = false }: { p: Project; sizes?: string; priority?: boolean }) {
   if (!p.image) return null;
   return (
     <div className="s-shot">
-      <Image src={p.image} alt={`${p.name} website (concept)`} fill sizes={sizes} priority={priority} />
+      <Image src={p.image} alt={`${p.name} website (demo)`} fill sizes={sizes} priority={priority} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { CardStack } from "./CardStack";
 import { CardGlow } from "./CardGlow";
 import { Shot } from "./Mini";
 
-const turf = projects.find((p) => p.slug === "spotturf")!, bhor = projects.find((p) => p.slug === "bhor")!;
+const turf = projects.find((p) => p.slug === "spotturf")!, tolly = projects.find((p) => p.slug === "tolly-cafe")!;
 
 /* ------------------------------------------------------------ hero */
 // Three promises we already make elsewhere on the site (FAQ, About values). No made-up numbers.
@@ -92,9 +92,9 @@ export function Speaks() {
         </div>
         <div className="s-wall">
           {projects.map((p, i) => (
-            <a key={p.slug} href={p.url} target="_blank" rel="noopener noreferrer" className={`s-wall__t ${i % 2 ? "s-wall__t--b" : "s-wall__t--a"}`} data-reveal style={{ transitionDelay: `${i * 90}ms` }} aria-label={`Open ${p.name}${p.concept ? " (concept)" : ""} in a new tab`}>
+            <a key={p.slug} href={p.url} target="_blank" rel="noopener noreferrer" className={`s-wall__t ${i % 2 ? "s-wall__t--b" : "s-wall__t--a"}`} data-reveal style={{ transitionDelay: `${i * 90}ms` }} aria-label={`Open ${p.name}${p.concept ? " (demo)" : ""} in a new tab`}>
               <span className="s-wall__img"><Image src={p.image!} alt={`${p.name} website homepage`} fill sizes="(max-width: 860px) 100vw, 620px" /></span>
-              <span className="s-wall__cap"><b>{p.name}</b>{p.concept && <span className="s-tag">Concept</span>}<em>{p.kind} ↗</em></span>
+              <span className="s-wall__cap"><b>{p.name}</b>{p.concept && <span className="s-tag">Demo</span>}<em>{p.kind} ↗</em></span>
             </a>
           ))}
         </div>
@@ -154,10 +154,10 @@ export function Approach() {
             <p>Built phone-first, then polished for laptops and desktops, so it looks right <strong>wherever your visitors are</strong>.</p>
             <div className="s-art s-art--phone" aria-hidden="true">
               <div className="s-desk">
-                <div className="s-desk__screen"><Image src={bhor.image!} alt="" fill sizes="220px" /></div>
+                <div className="s-desk__screen"><Image src={tolly.image!} alt="" fill sizes="220px" /></div>
                 <span className="s-desk__stand" />
               </div>
-              <div className="s-phone"><Image src={bhor.image!} alt="" fill sizes="220px" /><span className="s-phone__notch" /></div>
+              <div className="s-phone"><Image src={tolly.image!} alt="" fill sizes="220px" /><span className="s-phone__notch" /></div>
               <span className="s-chip s-chip--1">👆 Thumb-friendly</span>
               <span className="s-chip s-chip--2">🖥️ Sharp on desktop</span>
               <span className="s-chip s-chip--3">📞 Tap to call</span>
