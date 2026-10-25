@@ -34,7 +34,7 @@ export function WorkCard({ p }: { p: Project }) {
       <SiteMock p={p} />
       <div className="card-work__foot">
         <div>
-          <div className="card-work__name">{p.name}{p.concept && <span className="card-work__concept">Concept</span>}{p.url && <span className="card-work__visit"> ↗</span>}</div>
+          <div className="card-work__name">{p.name}{p.concept && <span className="card-work__concept">Demo</span>}{p.url && <span className="card-work__visit"> ↗</span>}</div>
           <div className="card-work__meta">{p.kind}{p.url ? " · view it live" : ""}</div>
         </div>
         <span className="card-work__result">{p.result}</span>
@@ -44,7 +44,7 @@ export function WorkCard({ p }: { p: Project }) {
   // Projects with a live site open it in a new tab; the rest stay on /work.
   if (p.url) {
     return (
-      <a href={p.url} className="card-work" target="_blank" rel="noopener noreferrer" aria-label={`${p.name}: ${p.concept ? "concept " : ""}${p.kind} (opens the site in a new tab)`}>
+      <a href={p.url} className="card-work" target="_blank" rel="noopener noreferrer" aria-label={`${p.name}: ${p.concept ? "demo " : ""}${p.kind} (opens the site in a new tab)`}>
         {inner}
       </a>
     );
