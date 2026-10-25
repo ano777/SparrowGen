@@ -202,7 +202,7 @@ export function PreviewStudio() {
       </section>
 
       <div className="studio__cta">
-        <button className="btn btn--grad" onClick={book}>I like this concept — let’s talk</button>
+        <button className="btn btn--grad" onClick={book}>I like this demo — let’s talk</button>
         <span className="studio__trial">Free trial included</span>
         <p className="studio__fine">This preview is only a starting point. We customise every page to your needs.</p>
         <Link href="/work" className="studio__link">Or see sites we&apos;ve built</Link>

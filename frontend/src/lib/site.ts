@@ -118,8 +118,8 @@ export type Project = {
   category: string; // filter chip on /work
 };
 
-// Our work: client sites first, then concept sites. Keep this list short.
-// Real client projects must NOT have concept: true; concept ones must keep it.
+// Our work: client sites first, then demo sites. Keep this list short.
+// Real client projects must NOT have concept: true; demo ones must keep it.
 export const projects: Project[] = [
   { slug: "dk-banquet", category: "Banquet", name: "D. K. Banquet", kind: "Banquet hall website", result: "Book-your-date enquiries", palette: ["#6e1424", "#fbf7f0", "#c9a86a"], headline: "Where every celebration becomes a memory.", url: "https://client-demo--dk-banquet-kolkata.netlify.app/", image: "/work/dk-banquet-hero.jpg", nav: ["Rooms", "Gallery", "Contact"] },
   { slug: "tolly-cafe", category: "Café", name: "Tolly Café", kind: "Cafe & restaurant website", result: "Table bookings on WhatsApp", palette: ["#12302e", "#fbfbf6", "#c7302a"], headline: "A home-style café & restaurant in Tollygunge.", url: "https://tolly-cafe-restaurant.netlify.app/", image: "/work/tolly-cafe-cover.webp", nav: ["Our story", "Menu", "Visit"] },

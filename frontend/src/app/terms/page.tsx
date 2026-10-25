@@ -52,7 +52,7 @@ const sections: LegalSection[] = [
           <li><strong>Prices</strong> are typical ranges, not quotes. Your price depends on your project and is fixed only in your Proposal.</li>
           <li><strong>Timelines</strong> (such as &ldquo;live in a week&rdquo; or &ldquo;2 days&rdquo;) are typical estimates. They start after you approve the design and we receive the content and payment we need, and they depend on how quickly you give feedback.</li>
           <li><strong>Response times</strong> (such as &ldquo;we call you within a day&rdquo;) are what we aim for, not a guarantee.</li>
-          <li><strong>Projects marked &ldquo;Concept&rdquo;</strong> are sample websites we designed and built ourselves to show our work. They are not client projects, and the businesses shown in them are fictional or used only as examples.</li>
+          <li><strong>Projects marked &ldquo;Demo&rdquo;</strong> are sample websites we designed and built ourselves to show our work. They are not client projects, and the businesses shown in them are fictional or used only as examples.</li>
           <li><strong>Past client project results</strong>, once shown, describe what happened for those clients. They are not a promise of the same result for you.</li>
         </ul>
         <p>Nothing on this website is an offer that you can accept to form a contract. A contract is formed only when you accept a Proposal from us.</p>
@@ -107,7 +107,7 @@ const sections: LegalSection[] = [
     title: "Free trial",
     body: (
       <p>
-        Where we offer a free trial, it means we show you a first design or concept for your website before you pay
+        Where we offer a free trial, it means we show you a first design or demo for your website before you pay
         anything, so you can decide whether to go ahead. The exact scope is set out in your Proposal or confirmed in writing.
         If you decide not to go ahead, you owe us nothing. A free trial does not include building the full website, handing
         over designs or code, domain names, hosting or any third-party costs, and the trial designs remain ours unless you
