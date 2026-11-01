@@ -98,7 +98,7 @@ Keep option `label`s identical across `ask` topics (e.g. the same four project t
 | --- | --- |
 | `"whatsapp"` | Chat on WhatsApp (opens `wa.me` with `contact.whatsapp_prefill`) |
 | `"book"` | Book a project (`/start`) |
-| `"email"` / `"call"` / `"instagram"` | mailto / tel / your Instagram page |
+| `"email"` / `"call"` / `"instagram"` / `"linkedin"` | mailto / tel / your Instagram page / your LinkedIn page |
 | `"topic:<id>"` | A button that asks the bot about another topic |
 | `{ "label": "See our work", "href": "/work" }` | Any link. Paths starting with `/` stay on the site |
 

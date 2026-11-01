@@ -116,6 +116,7 @@ export function createBot(config: BotConfig, rand: () => number = Math.random) {
       case "email": return { kind: "link", label: "Email us", href: `mailto:${contact.email}` };
       case "call": return { kind: "link", label: "Call us", href: `tel:+${digits(contact.phone ?? "")}` };
       case "instagram": return { kind: "link", label: "Instagram", href: contact.instagram_url };
+      case "linkedin": return { kind: "link", label: "LinkedIn", href: contact.linkedin_url };
       default: return null;
     }
   }

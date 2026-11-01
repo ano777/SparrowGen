@@ -25,7 +25,7 @@ test("config is internally consistent", () => {
   ];
   for (const s of specs) {
     if (typeof s === "string" && s.startsWith("topic:")) assert.ok(ids.has(s.slice(6)), `button ${s}`);
-    else if (typeof s === "string") assert.ok(["whatsapp", "book", "email", "call", "instagram"].includes(s), `button ${s}`);
+    else if (typeof s === "string") assert.ok(["whatsapp", "book", "email", "call", "instagram", "linkedin"].includes(s), `button ${s}`);
   }
   for (const t of config.topics) assert.ok(t.answer || t.ask, `topic ${t.id} needs answer or ask`);
 });
@@ -61,12 +61,13 @@ test("pricing asks, then gives a range", () => {
 test("changing topic mid-question works", () => {
   const first = ask("how long does it take");
   const second = ask("what is your phone number", first.state);
-  assert.match(second.message.text, /\+91 62918 45804/);
+  assert.match(second.message.text, /\+91 62908 76627/);
 });
 
 test("contact, social, budgets and services include the details", () => {
-  assert.match(ask("contact number please").message.text, /\+91 62918 45804/);
+  assert.match(ask("contact number please").message.text, /\+91 62908 76627/);
   assert.match(ask("do you have instagram").message.text, /@sparrowgen\.in/);
+  assert.ok(ask("are you on linkedin").message.buttons.some((b) => b.href === "https://www.linkedin.com/company/sparrowgen/home/"));
   assert.match(ask("what budget do you work with").message.text, /Under ₹5k/);
   const services = ask("what services do you offer").message.text;
   assert.match(services, /Domain and hosting/);
@@ -75,9 +76,9 @@ test("contact, social, budgets and services include the details", () => {
 
 test("contact answer offers WhatsApp, email, call, instagram buttons with real links", () => {
   const hrefs = ask("how do i contact you").message.buttons.map((b) => b.href);
-  assert.ok(hrefs.some((h) => h.startsWith("https://wa.me/916291845804?text=")));
+  assert.ok(hrefs.some((h) => h.startsWith("https://wa.me/916290876627?text=")));
   assert.ok(hrefs.includes("mailto:business@sparrowgen.com"));
-  assert.ok(hrefs.includes("tel:+916291845804"));
+  assert.ok(hrefs.includes("tel:+916290876627"));
   assert.ok(hrefs.includes("https://instagram.com/sparrowgen.in"));
 });
 
@@ -146,7 +147,7 @@ test("pricing answers tell unhappy visitors to contact WhatsApp", () => {
   const first = ask("how much does it cost");
   for (const label of ["Landing page", "Business website", "Online store", "Redesign"]) {
     const r = ask(label, first.state);
-    assert.match(r.message.text, /Not happy with the pricing\? Contact us on WhatsApp \(\+91 62918 45804\)/, label);
+    assert.match(r.message.text, /Not happy with the pricing\? Contact us on WhatsApp \(\+91 62908 76627\)/, label);
     assert.ok(r.message.buttons.some((b) => b.href?.startsWith("https://wa.me/")), `${label} has a WhatsApp button`);
   }
   const budgets = ask("what budget do you work with");

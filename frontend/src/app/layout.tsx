@@ -37,7 +37,7 @@ const businessInfo = {
   email: brand.email,
   telephone: brand.whatsapp.replace(/\s/g, ""),
   areaServed: { "@type": "Country", name: "India" },
-  sameAs: [brand.instagramUrl],
+  sameAs: [brand.instagramUrl, brand.linkedinUrl],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -5,6 +5,7 @@
 Sparrowgen is a web studio that builds hand-coded websites, online stores and landing pages for small businesses across India: cafés, salons, clinics, boutiques, banquet halls and more. This repository holds the studio's public website, the team's internal dashboard, and the API behind both.
 
 🌐 **Live site:** [sparrowgen.com](https://sparrowgen.com) · 📸 [@sparrowgen.in](https://instagram.com/sparrowgen.in)
+- 💼 LinkedIn: [Sparrowgen](https://www.linkedin.com/company/sparrowgen/home/)
 
 ---
 
@@ -161,7 +162,7 @@ The website can also be deployed to **Netlify** with no setup: [`netlify.toml`](
 ## Contact
 
 - ✉️ business@sparrowgen.com
-- 💬 WhatsApp: +91 62918 45804 · +91 80178 12091
+- 💬 WhatsApp: +91 62908 76627
 - 📸 Instagram: [@sparrowgen.in](https://instagram.com/sparrowgen.in)
 
 ---

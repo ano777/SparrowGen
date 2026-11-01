@@ -11,11 +11,11 @@ export const legal = {
   address: "Kolkata, West Bengal, India",
   // Founders are deliberately not listed by name on the legal pages (one can't be named publicly).
   // CONFIRM: an inbox someone actually reads. Privacy and customer complaints go here.
-  // phone is Anoranya's number (the second WhatsApp line on the site).
-  grievanceOfficer: { name: "Anoranya Dutta", role: "Co-founder and Grievance Officer", email: brand.email, phone: brand.whatsapp2 },
+  // phone is the business number.
+  grievanceOfficer: { name: "Anoranya Dutta", role: "Co-founder and Grievance Officer", email: brand.email, phone: brand.whatsapp },
   effectiveDate: "6 October 2026",
-  lastUpdated: "6 October 2026", // Terms
-  privacyUpdated: "18 October 2026",
+  lastUpdated: "2 November 2026", // Terms
+  privacyUpdated: "2 November 2026",
   cookiesUpdated: "18 October 2026",
   courtsCity: "Kolkata, West Bengal",
 };

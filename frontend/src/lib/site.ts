@@ -7,10 +7,10 @@ export const brand = {
   tagline: "More customers. Not more templates.",
   tabTitle: "Websites & Automation, Engineered", // shown in the browser tab on the home page
   email: "business@sparrowgen.com",
-  whatsapp: "+91 62918 45804",
-  whatsapp2: "+91 80178 12091", // second WhatsApp line, shown alongside the main one
+  whatsapp: "+91 62908 76627", // our one business number (WhatsApp and calls)
   instagram: "@sparrowgen.in",
   instagramUrl: "https://instagram.com/sparrowgen.in",
+  linkedinUrl: "https://www.linkedin.com/company/sparrowgen/home/",
   city: "Pan India", // we serve clients across India, fully online
 };
 
