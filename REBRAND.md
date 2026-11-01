@@ -8,7 +8,7 @@ the footer and browser tab titles) reads from these and updates by itself.
 
 | File | What to change |
 | --- | --- |
-| `frontend/src/lib/site.ts` → `brand` | `name`, `botName` (e.g. "&lt;Name&gt;Bot"), `instagram`, `instagramUrl` |
+| `frontend/src/lib/site.ts` → `brand` | `name`, `botName` (e.g. "&lt;Name&gt;Bot"), `instagram`, `instagramUrl`, `linkedinUrl` |
 | `admin/src/lib/brand.ts` | `BRAND_NAME` (the dashboard is a separate app, so it has its own copy) |
 | `frontend/src/lib/legal.ts` | `businessName` if the registered name differs (e.g. "Name LLP"), `businessStatus`, `address` |
 | `frontend/src/components/Logo.tsx` | Only if the logo mark itself changes (the sparrow). The name next to it updates by itself |

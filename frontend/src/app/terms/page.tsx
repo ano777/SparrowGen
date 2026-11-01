@@ -400,7 +400,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         {legal.businessName}, {legal.address}<br />
-        Email: {mail} · WhatsApp: {brand.whatsapp} / {brand.whatsapp2}
+        Email: {mail} · WhatsApp: {brand.whatsapp}
       </p>
     ),
   },

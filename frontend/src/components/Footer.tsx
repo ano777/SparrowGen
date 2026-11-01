@@ -11,7 +11,7 @@ const Arrow = () => (
 const socials = [
   { label: "Instagram", href: brand.instagramUrl, icon: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" /></> },
   { label: "WhatsApp", href: wa(brand.whatsapp), icon: <path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z M9 9.5c.3 2.3 2.2 4.2 4.5 4.5l1-1.2 1.8.8c-.2 1-1 1.9-2.3 1.9-3.4 0-6.5-3.1-6.5-6.5 0-1.3.9-2.1 1.9-2.3l.8 1.8z" /> },
-  { label: "WhatsApp 2", href: wa(brand.whatsapp2), icon: <path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z M9 9.5c.3 2.3 2.2 4.2 4.5 4.5l1-1.2 1.8.8c-.2 1-1 1.9-2.3 1.9-3.4 0-6.5-3.1-6.5-6.5 0-1.3.9-2.1 1.9-2.3l.8 1.8z" /> },
+  { label: "LinkedIn", href: brand.linkedinUrl, icon: <><rect x="3" y="3" width="18" height="18" rx="4" /><path d="M8 11v5M8 8v.01M12 16v-5M12 13c0-1.2 1-2 2.2-2s1.8.8 1.8 2v3" strokeLinecap="round" /></> },
   { label: "Email", href: `mailto:${brand.email}`, icon: <><rect x="3" y="5" width="18" height="14" rx="3" /><path d="M4 7l8 6 8-6" /></> },
 ];
 
@@ -60,8 +60,8 @@ export function Footer() {
               <ul>
                 <li><a href={`mailto:${brand.email}`}>Email: {brand.email}</a></li>
                 <li><a href={wa(brand.whatsapp)} target="_blank" rel="noopener noreferrer">WhatsApp: {brand.whatsapp}</a></li>
-                <li><a href={wa(brand.whatsapp2)} target="_blank" rel="noopener noreferrer">WhatsApp: {brand.whatsapp2}</a></li>
                 <li>Instagram: {brand.instagram}</li>
+                <li><a href={brand.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn: Sparrowgen</a></li>
                 <li>Serving clients across India</li>
               </ul>
             </div>

@@ -148,6 +148,7 @@ Buttons go in a topic's `buttons` list (and in `fallback.buttons` and `exits.but
 | `"email"` | "Email us" (opens the visitor's mail app) |
 | `"call"` | "Call us" |
 | `"instagram"` | "Instagram" (opens `contact.instagram_url`) |
+| `"linkedin"` | "LinkedIn" (opens `contact.linkedin_url`) |
 | `"topic:<id>"` | A button that asks the bot about another topic, e.g. `"topic:pricing"` |
 | `{ "label": "See our work", "href": "/work" }` | Any link. A path starting with `/` stays on the site, and `https://...` opens a new tab |
 
